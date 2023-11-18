@@ -1,8 +1,10 @@
 <template>
     <div class="post-container">
         <h1>This is Job Page</h1>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.content }}</p>
+        <div v-for="post in post" :key="post.id">
+        <h2>{{ post.titulo }}</h2>
+        <p>{{ post.descripcion }}</p>
+        </div>
     </div>
 </template>
 
@@ -21,12 +23,12 @@ export default{
     },
     methods:{
         consultarPosts(){
-            fetch('/apimydb/')
+            fetch('http://localhost/apimydb/')
             .then(respuesta=>respuesta.json())
             .then((datosRespuesta)=>{
                 console.log(datosRespuesta)
                 this.post=[]
-                if(typeof datosRespuesta[0].success ==='undefined'){
+                if(typeof datosRespuesta.success ==='undefined'){
                     this.post=datosRespuesta;
                 }
             })
