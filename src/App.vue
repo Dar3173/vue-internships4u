@@ -1,5 +1,6 @@
 <template>
   <FirstMenu />
+  <router-view/>
 </template>
 
 <script setup>
