@@ -1,10 +1,13 @@
 <template>
+    <h1>This is Job Page</h1>
     <div class="post-container">
-        <h1>This is Job Page</h1>
         <div v-for="post in post" :key="post.id">
         <h2>{{ post.titulo }}</h2>
         <p>{{ post.descripcion }}</p>
         </div>
+    </div>
+    <div class="company-description">
+        
     </div>
 </template>
 
@@ -42,5 +45,18 @@ export default{
 <style scoped>
     h1{
         color: red;
+    }
+    .post-container{
+        background-color: white;
+        width: 55%;
+        height: 475px;
+        display: flex;
+        padding: 10px;
+        justify-content: center;
+        border-radius: 15px;
+        h2{
+            padding: 10px;
+            margin: 10px;
+        }
     }
 </style>
