@@ -1,5 +1,5 @@
 <template>
-    <h1>This is Job Page</h1>
+    <div class="post-page">
     <div class="post-container">
         <div v-for="post in post" :key="post.id">
         <h2>{{ post.titulo }}</h2>
@@ -7,8 +7,11 @@
         </div>
     </div>
     <div class="company-description">
-        
+        <h2>Nombre de la compañia</h2> 
+        <p> Logo de la empresa </p>
+        <p>Descripcion de la compañia</p>
     </div>
+</div>
 </template>
 
 <script>
@@ -20,9 +23,6 @@ export default{
     },
     created:function() {
         this.consultarPosts();
-    },
-    mounted(){
-        console.log('componente job view montado')
     },
     methods:{
         consultarPosts(){
@@ -43,20 +43,38 @@ export default{
 </script>
 
 <style scoped>
-    h1{
-        color: red;
-    }
+.post-page{
+    display: flex;
+    margin: 3%;
+    padding: 1%;
+    display: flex;
+    justify-content: center;
+    height: 475px;
+}
     .post-container{
+        padding: 10px;
         background-color: white;
         width: 55%;
-        height: 475px;
-        display: flex;
-        padding: 10px;
-        justify-content: center;
         border-radius: 15px;
-        h2{
+        margin-right: 1%;
+        line-height: 25px;
+        white-space: pre-line;
+    }
+
+    .company-description{
+        background-color: white;
+        width: 40%;
+        border-radius: 15px;
+        padding: 10px;
+    }
+
+    h2{
             padding: 10px;
             margin: 10px;
         }
-    }
+
+        p{
+            padding: 10px;
+            margin: 10px;
+        }
 </style>
