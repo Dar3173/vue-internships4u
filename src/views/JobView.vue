@@ -1,15 +1,16 @@
 <template>
     <div class="post-page">
     <div class="post-container">
-        <div v-for="post in post" :key="post.id">
-        <h2>{{ post.titulo }}</h2>
-        <p>{{ post.descripcion }}</p>
+        <div v-for="singlepost in post" :key="singlepost.id">
+        <h2>{{ singlepost.titulo }}</h2>
+        <p>{{ singlepost.descripcion }}</p>
         </div>
     </div>
     <div class="company-description">
-        <h2>Nombre de la compañia</h2> 
-        <p> Logo de la empresa </p>
-        <p>Descripcion de la compañia</p>
+        <p>logo de la empresa</p> 
+        <h3>{{ post[0].empresa.nombre_empresa }}</h3>
+        <h4>Quienes somos?</h4>
+        <p>{{ post[0].empresa.Direccion }}</p>
     </div>
 </div>
 </template>
@@ -18,14 +19,14 @@
 export default{
     data(){
         return{
-            post:[]
-        }
+            post:[],
+        };
     },
     created:function() {
-        this.consultarPosts();
+        this.consultarPostsByID();
     },
     methods:{
-        consultarPosts(){
+        consultarPostsByID(){
             fetch('http://localhost/apimydb/')
             .then(respuesta=>respuesta.json())
             .then((datosRespuesta)=>{
@@ -42,7 +43,7 @@ export default{
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .post-page{
     display: flex;
     margin: 3%;
@@ -68,12 +69,13 @@ export default{
         padding: 10px;
     }
 
-    h2{
+    h2,h3{
             padding: 10px;
             margin: 10px;
+            color: $azul-oscuro;
         }
 
-        p{
+        p,h4{
             padding: 10px;
             margin: 10px;
         }
