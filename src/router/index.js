@@ -1,16 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import jobView from '../views/JobView.vue'
+import CSearchView from '../views/CSearchView.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/login',
     name: 'login',
     component: LoginView
   },
@@ -20,6 +15,10 @@ const routes = [
     component: jobView
   },
   
+    path: '/CSearch',
+    name: 'CSearch',
+    component: CSearchView
+  }
 ]
 
 const router = createRouter({
