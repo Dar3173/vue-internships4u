@@ -1,50 +1,40 @@
 <template>
-    <div class="post-page">
-    <div class="post-container">
-        <div v-for="singlepost in post" :key="singlepost.id">
-        <h2>{{ singlepost.titulo }}</h2>
-        <p>{{ singlepost.descripcion }}</p>
-        </div>
+    <div class="job-view">
+        <h2 v-if="jobDetails && jobDetails.data">{{ jobDetails.data.titulo }}</h2>
+        <p v-if="jobDetails && jobDetails.data">Empresa: {{ jobDetails.data.empresa }}</p>
+        <p v-if="jobDetails && jobDetails.data" v-html="formatDescription(jobDetails.data.descripcion)"></p>
+        <p v-if="jobDetails && jobDetails.data">Dirección: {{ jobDetails.data.direccion }}</p>
+        
+        <!-- Otros detalles del trabajo... -->
     </div>
-    <div class="company-description">
-        <p>logo de la empresa</p> 
-        <h3>{{ post[0].empresa.nombre_empresa }}</h3>
-        <h4>Quienes somos?</h4>
-        <p>{{ post[0].empresa.Direccion }}</p>
-    </div>
-</div>
 </template>
 
-<script>
-export default{
-    data(){
-        return{
-            post:[],
-        };
-    },
-    created:function() {
-        this.consultarPostsByID();
-    },
-    methods:{
-        consultarPostsByID(){
-            fetch('http://localhost/apimydb/')
-            .then(respuesta=>respuesta.json())
-            .then((datosRespuesta)=>{
-                console.log(datosRespuesta)
-                this.post=[]
-                if(typeof datosRespuesta.success ==='undefined'){
-                    this.post=datosRespuesta;
-                }
-            })
-            .catch(console.log)
-        },
-        }
-    }
+<script setup>
+import { ref, onMounted } from "vue";
+import { fetchJobDetails } from "../services/firebaseService";
+import { useRoute } from "vue-router";
 
+const route = useRoute();
+const jobId = ref(route.params.id); // Asigna el ID del trabajo que deseas cargar
+const jobDetails = ref(null);
+
+
+const formatDescription = (description) => {
+  return description.replace(/\\r\\n|\\r|\\n/g, '<br>');
+};
+
+onMounted(async () => {
+    try {
+        jobDetails.value = await fetchJobDetails(jobId.value);
+        console.log('job details', jobDetails.value)
+    } catch (error) {
+        console.error("Error fetching job details: ", error);
+    }
+});
 </script>
 
 <style scoped lang="scss">
-.post-page{
+.post-page {
     display: flex;
     margin: 3%;
     padding: 1%;
@@ -52,31 +42,34 @@ export default{
     justify-content: center;
     height: 475px;
 }
-    .post-container{
-        padding: 10px;
-        background-color: white;
-        width: 55%;
-        border-radius: 15px;
-        margin-right: 1%;
-        line-height: 25px;
-        white-space: pre-line;
-    }
 
-    .company-description{
-        background-color: white;
-        width: 40%;
-        border-radius: 15px;
-        padding: 10px;
-    }
+.job-view {
+    padding: 10px;
+    background-color: white;
+    width: 55%;
+    border-radius: 15px;
+    margin-right: 1%;
+    line-height: 25px;
+    white-space: pre-line;
+}
 
-    h2,h3{
-            padding: 10px;
-            margin: 10px;
-            color: $azul-oscuro;
-        }
+.company-description {
+    background-color: white;
+    width: 40%;
+    border-radius: 15px;
+    padding: 10px;
+}
 
-        p,h4{
-            padding: 10px;
-            margin: 10px;
-        }
+h2,
+h3 {
+    padding: 10px;
+    margin: 10px;
+    color: $azul-oscuro;
+}
+
+p,
+h4 {
+    padding: 10px;
+    margin: 10px;
+}
 </style>

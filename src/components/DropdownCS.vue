@@ -16,7 +16,6 @@
         <button class="search-button" @click="handleSearch">Buscar</button>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -24,9 +23,11 @@
 import { ref } from 'vue';
 
 export default {
-  setup() {
+  props: ['categories'],
+  setup(props, { emit }) {
+    console.log('categorias', props.categories)
     const isOpen = ref(false);
-    const options = ref(['Ingenieria Industrial', 'Diseño gráfico', 'Publicidad', 'Ingenieria Biomédica']);
+    const options = ref(props.categories);
     const selectedOption = ref(null);
 
     const toggleDropdown = () => {
@@ -36,6 +37,7 @@ export default {
     const selectOption = (option) => {
       selectedOption.value = option;
       isOpen.value = false;
+      emit('categorySelected', option);
     };
 
     const handleSearch = () => {
@@ -49,10 +51,13 @@ export default {
       toggleDropdown,
       selectOption,
       handleSearch,
+      emit, // Agrega esto si realmente necesitas tener acceso a `emit` en el componente
     };
+    
   },
 };
 </script>
+
 
 <style lang="scss" scoped>
 .dropdown-container {

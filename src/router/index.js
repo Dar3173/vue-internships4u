@@ -10,11 +10,12 @@ const routes = [
     component: LoginView
   },
   {
-    path: '/job',
+    path: '/job/:id',
     name: 'jobView',
-    component: jobView
+    component: jobView,
+    props: true,
   },
-  
+  {
     path: '/CSearch',
     name: 'CSearch',
     component: CSearchView
