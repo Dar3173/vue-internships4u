@@ -7,6 +7,7 @@
         
         <!-- Otros detalles del trabajo... -->
     </div>
+    
 </template>
 
 <script setup>
@@ -48,7 +49,7 @@ onMounted(async () => {
     background-color: white;
     width: 55%;
     border-radius: 15px;
-    margin-right: 1%;
+    margin: auto;
     line-height: 25px;
     white-space: pre-line;
 }

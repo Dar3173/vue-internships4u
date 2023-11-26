@@ -12,9 +12,6 @@
           </li>
         </ul>
       </div>
-      <div>
-        <button class="search-button" @click="handleSearch">Buscar</button>
-      </div>
     </div>
   </div>
 </template>
@@ -40,9 +37,6 @@ export default {
       emit('categorySelected', option);
     };
 
-    const handleSearch = () => {
-      // Handle search logic
-    };
 
     return {
       isOpen,
@@ -50,7 +44,6 @@ export default {
       selectedOption,
       toggleDropdown,
       selectOption,
-      handleSearch,
       emit, // Agrega esto si realmente necesitas tener acceso a `emit` en el componente
     };
     
@@ -64,7 +57,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 5px 20px 30px 20px;
+  margin: 5px 20px 5px 20px;
   padding: 30px;
 }
 
@@ -75,13 +68,16 @@ export default {
 }
 
 .dropdown-button {
+  width: 1000px;
+  justify-content: center;
   padding: 10px;
   cursor: pointer;
   font-size: 18px;
   display: flex;
   align-items: center;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid white;
+  color: $azul-oscuro;
 }
 
 .arrow {
@@ -89,13 +85,16 @@ export default {
 }
 
 .dropdown-options {
+  width: 1000px;
+  justify-content: center;
   list-style: none;
   padding: 10px;
   position: absolute;
   left: 0;
-  background-color: #fff;
+  background-color: white;
   border: 1px solid #ccc;
   border-radius: 10px;
+  color: $azul-oscuro;
 }
 
 .dropdown-options li {
