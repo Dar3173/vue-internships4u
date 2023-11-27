@@ -60,12 +60,13 @@
     </div>
     <br />
     <!-- Botón para enviar el formulario -->
-    <button @click="enviarRegistro">Registrar</button>
+    <button @click="enviarRegistroFirebase">Registrar</button>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { agregarUsuario } from '../services/firebaseService';
   
   // Sección 1: Nombre
   const nombre = ref('');
@@ -147,15 +148,38 @@ import { ref } from 'vue';
     return cumpleanos.getUTCFullYear() - 1970;
   };
   
-  // Función para enviar el formulario
-  const enviarRegistro = () => {
+
+  //funcion para enviar la info a firebase 
+  
+  const enviarRegistroFirebase = async () => {
+  try {
+    // Verifica que todos los campos estén válidos antes de enviar a Firebase
     if (nombreValido.value && apellidoValido.value && mensajeErrorCorreo.value === '' && mensajeErrorContraseña.value === '' && fechaValida.value) {
-      console.log('Formulario válido. Enviar a la base de datos.');
-      // Aquí puedes enviar la información del registro a la base de datos
+      // Crea un objeto con la información del registro
+      const registro = {
+        nombre: nombre.value,
+        apellido: apellido.value,
+        correo: correo.value,
+        contraseña: contraseña.value,
+        fechaNacimiento: {
+          dia: dia.value,
+          mes: mes.value,
+          año: selectedYear.value
+        }
+      };
+
+      // Llama a la función de Firebase para guardar la información
+      const idUsuario = await agregarUsuario(registro);
+
+      console.log(`Usuario registrado en Firebase con ID: ${idUsuario}`);
     } else {
-      console.log('Formulario no válido. Corrige los errores antes de enviar.');
+      console.log('Corrige los errores antes de enviar el formulario.');
     }
-  };
+  } catch (error) {
+    console.error('Error al enviar el formulario a Firebase:', error.message);
+  }
+};
+
 </script>
 
 <style scoped>
