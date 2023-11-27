@@ -61,12 +61,16 @@
     <br />
     <!-- Botón para enviar el formulario -->
     <button @click="enviarRegistroFirebase">Registrar</button>
+    <p v-if="registroExitoso" class="confirmacion-mensaje">Usuario registrado con éxito.</p>
+  
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { agregarUsuario } from '../services/firebaseService';
+
+let registroExitoso = ref(false);
   
   // Sección 1: Nombre
   const nombre = ref('');
@@ -152,6 +156,7 @@ import { agregarUsuario } from '../services/firebaseService';
   //funcion para enviar la info a firebase 
   
   const enviarRegistroFirebase = async () => {
+
   try {
     // Verifica que todos los campos estén válidos antes de enviar a Firebase
     if (nombreValido.value && apellidoValido.value && mensajeErrorCorreo.value === '' && mensajeErrorContraseña.value === '' && fechaValida.value) {
@@ -171,6 +176,18 @@ import { agregarUsuario } from '../services/firebaseService';
       // Llama a la función de Firebase para guardar la información
       const idUsuario = await agregarUsuario(registro);
 
+      // Restablece los valores de los campos después del registro exitoso
+      nombre.value = '';
+      apellido.value = '';
+      correo.value = '';
+      contraseña.value = '';
+      dia.value = '';
+      mes.value = '';
+      selectedYear.value = '';
+
+      // Activa el estado de registro exitoso
+      registroExitoso.value = true;
+
       console.log(`Usuario registrado en Firebase con ID: ${idUsuario}`);
     } else {
       console.log('Corrige los errores antes de enviar el formulario.');
@@ -183,4 +200,9 @@ import { agregarUsuario } from '../services/firebaseService';
 </script>
 
 <style scoped>
+.confirmacion-mensaje {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+}
 </style>
