@@ -3,14 +3,11 @@
     <h1>Búsqueda Avanzada</h1>
     <DropdownCS :categories="categories" @categorySelected="filterPosts" />
     <div class="center-box">
-      <hr>
       <ul>
-        <li v-for="item in filteredPosts" :key="item.id" class="post-card" >
-          <router-link :to="{ name: 'jobView', params: { id: item.id } }">
+        <router-link :to="{ name: 'jobView', params: { id: item.id } }" v-for="item in filteredPosts" :key="item.id" class="post-card">
           <p class="post-title">{{ item.data.titulo }}</p>
-          <p class="company-info">En <u>{{ item.data.empresa }}</u></p>
+          <p class="company-info">En {{ item.data.empresa }}</p>
         </router-link>
-        </li>
       </ul>
     </div>
   </div>
@@ -53,35 +50,50 @@ const filterPosts = (category) => {
   }
   .center-box {
     width: 97%;
-    height: 400px;
+    height: 100%;
     background-color: white;
-    border-radius: 10px;
-    margin: auto;
+    border-radius: 20px;
+    margin: 10px auto 10px auto;
+    padding: 10px;
   }
   .post-card {
-  width: calc(90% - 20px); 
-  margin: 10px;
-  padding: 15px;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 10px;
-  box-sizing: border-box;
-}
-ul{
-  list-style: none;
-}
-.post-title {
-  color: $azul-oscuro;
-  font-weight: bold;
-}
-.company-info {
-  margin-top: 5px; /* Ajusta según sea necesario */
-}
-.router-link {
-  text-decoration: none; /* Quitar subrayado */
-  color: inherit; /* Heredar color del texto del contenedor padre */
+    display: flex;
+    flex-direction: column;
+    align-items: left; 
+    width: 98%;
+    margin: 15px 0 15px 0;
+    padding: 15px;
+    background-color: white;
+    border: 2px dotted $azul-oscuro;
+    border-radius: 10px;
+    box-sizing: border-box;
 }
 
+
+  ul{
+    list-style: none;
+}
+
+.post-title, .company-info {
+  margin-top: 2px;
+  color: $azul-oscuro;
+  display: block;
+  text-decoration-color: white;
+}
+
+  
+  .post-title {
+    font-weight: bold;
+    font-size: 18px;
+
+}
+  .company-info {
+    margin-top: 2px;
+}
+
+router-link {
+    color: inherit; /* Heredar color del texto del contenedor padre */
+}
 </style>
 
 
