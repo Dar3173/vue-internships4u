@@ -5,12 +5,12 @@
         <!-- Sección 1: Nombre -->
         <div class="nombre_barra">
           <input type="text" class="nombre" v-model="nombre" placeholder="Nombre" @input="handleNombreInput" />
-          <p v-if="!nombreValido" style="color: red;">Nombre inválido.</p>
+          <p v-if="!nombreValido" style="color: orangered;">Nombre inválido.</p>
         </div>
         <!-- Sección 2: Apellido -->
         <div class="apellido_barra">
           <input type="text" class="apellido" v-model="apellido" placeholder="Apellido" @input="handleApellidoInput" />
-          <p v-if="!apellidoValido" style="color: red;">Apellido inválido.</p>
+          <p v-if="!apellidoValido" style="color: orangered;">Apellido inválido.</p>
         </div>
       </div>
       <br />
@@ -18,13 +18,13 @@
       <div class="correo_contraseña">
         <label class="correo_barra">
           <input type="email" class="correo" v-model="correo" placeholder="Correo electrónico" @input="validarCorreo" />
-          <p v-if="mensajeErrorCorreo" style="color: red;">{{ mensajeErrorCorreo }}</p>
+          <p v-if="mensajeErrorCorreo" style="color: orangered;">{{ mensajeErrorCorreo }}</p>
         </label>
         <!-- Sección ingreso contraseña -->
         <label class="contrasena_barra">
           <input type="password" class="contraseña" v-model="contraseña" placeholder="Contraseña"
             @input="handleContraseñaInput" />
-          <p v-if="mensajeErrorContraseña" style="color: red;">{{ mensajeErrorContraseña }}</p>
+          <p v-if="mensajeErrorContraseña" style="color: orangered;">{{ mensajeErrorContraseña }}</p>
         </label>
         <br />
       </div>

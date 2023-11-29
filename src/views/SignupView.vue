@@ -22,13 +22,18 @@ import FormularioRegistro from '../components/FormularioRegistro.vue';
   display: block;
   margin-left: 100px;
   width: 40%;
-  height: 40%;
+  height: 70%;
 }
 
+.container_texto{
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px 10px 20px;
+}
 .container_texto h1{
   text-align: center;
   color: $azul-oscuro;
-  font-size: 60px;
+  font-size: 70px;
   font-weight: bold;
   margin-bottom: 0;
 }
@@ -36,7 +41,9 @@ import FormularioRegistro from '../components/FormularioRegistro.vue';
 .container_texto p{
   text-align: center;
   color: white;
-  font-size: 15px;
+  font-size: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  margin-bottom: 50px;
 }
 
 .imagen_registro, img {
