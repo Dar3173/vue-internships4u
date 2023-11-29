@@ -1,6 +1,7 @@
 // firebaseService.js
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyBq8Sl1VkCUAErrum7wQ1_BX15bakkO5QE",
@@ -14,6 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const postsCollection = collection(db, 'posts');
+
 
 const fetchPosts = async () => {
     const querySnapshot = await getDocs(postsCollection);
@@ -34,4 +36,12 @@ const fetchJobDetails = async (postId) => {
     }
 };
 
-export { fetchPosts, fetchJobDetails };
+const usersCollection = collection(db, 'users');
+
+const agregarUsuario = async (usuario) => {
+  // Agrega un nuevo usuario a la colección "users"
+  const docRef = await addDoc(usersCollection, usuario);
+  return docRef.id; // Devuelve el ID del documento recién creado
+};
+
+export { fetchPosts, fetchJobDetails, agregarUsuario };
