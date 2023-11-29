@@ -1,4 +1,5 @@
 <template>
+    <form @submit.prevent="enviarRegistroFirebase">
   <div class="container_formulario">
     <div class="formulario">
       <div class="container_nombres_apellidos">
@@ -49,15 +50,17 @@
       <br />
       <!-- Botón para enviar el formulario -->
       <div class="btn_formulario">
-        <button @click="enviarRegistroFirebase">Registrar</button>
-        <p v-if="registroExitoso" class="confirmacion_mensaje">Usuario registrado con éxito.</p>
-      </div>
+      <button type="submit">Registrar</button>
+      <p v-if="registroExitoso" class="confirmacion_mensaje">Usuario registrado con éxito.</p>
+      <p v-if="mensajeErrorGeneral" style="color: red;">{{ mensajeErrorGeneral }}</p>
+    </div>
     </div>
   </div>
+</form>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { agregarUsuario } from '../services/firebaseService';
 
 let registroExitoso = ref(false);
@@ -119,18 +122,36 @@ const validarTelefono = () => {
 
 //funcion para enviar la info a firebase 
 
-// Función para enviar la información a Firebase
+// Validación general del formulario
+const formularioValido = computed(() => {
+  return (
+    nombreValido.value &&
+    apellidoValido.value &&
+    mensajeErrorCorreo.value === '' &&
+    mensajeErrorContraseña.value === '' &&
+    edadValida.value &&
+    telefonoValido.value &&
+    !camposEnBlanco()
+  );
+});
+
+const camposEnBlanco = () => {
+  return (
+    nombre.value.trim() === '' ||
+    apellido.value.trim() === '' ||
+    correo.value.trim() === '' ||
+    contraseña.value.trim() === '' ||
+    edad.value.trim() === '' ||
+    telefono.value.trim() === ''
+  );
+};
+
+let mensajeErrorGeneral = ref('');
+
 const enviarRegistroFirebase = async () => {
   try {
     // Verifica que todos los campos estén válidos antes de enviar a Firebase
-    if (
-      nombreValido.value &&
-      apellidoValido.value &&
-      mensajeErrorCorreo.value === '' &&
-      mensajeErrorContraseña.value === '' &&
-      edadValida.value &&
-      telefonoValido.value
-    ) {
+    if (formularioValido.value) {
       // Crea un objeto con la información del registro
       const registro = {
         nombre: nombre.value,
@@ -144,6 +165,8 @@ const enviarRegistroFirebase = async () => {
       // Llama a la función de Firebase para guardar la información
       const idUsuario = await agregarUsuario(registro);
 
+      console.log(`Usuario registrado en Firebase con ID: ${idUsuario}`);
+
       // Restablece los valores de los campos después del registro exitoso
       nombre.value = '';
       apellido.value = '';
@@ -154,15 +177,24 @@ const enviarRegistroFirebase = async () => {
 
       // Activa el estado de registro exitoso
       registroExitoso.value = true;
+      // Restablece el mensaje de error general
+      mensajeErrorGeneral.value = '';
 
-      console.log(`Usuario registrado en Firebase con ID: ${idUsuario}`);
+      // Desactiva el estado de registro exitoso después de un tiempo
+      setTimeout(() => {
+        registroExitoso.value = false;
+      }, 5000); // Por ejemplo, espera 5 segundos antes de desactivar
     } else {
-      console.log('Corrige los errores antes de enviar el formulario.');
+      // Muestra un mensaje de error general si el formulario no es válido
+      mensajeErrorGeneral.value = 'Corrige los errores antes de enviar el formulario.';
     }
   } catch (error) {
     console.error('Error al enviar el formulario a Firebase:', error.message);
   }
 };
+
+
+
 
 </script>
 
