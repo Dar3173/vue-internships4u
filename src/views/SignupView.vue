@@ -28,7 +28,7 @@ import FormularioRegistro from '../components/FormularioRegistro.vue';
 .container_texto{
   display: flex;
   flex-direction: column;
-  padding: 0 20px 10px 20px;
+  padding: 0 20px 0 20px;
 }
 .container_texto h1{
   text-align: center;

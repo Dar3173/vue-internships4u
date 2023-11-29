@@ -35,14 +35,14 @@
         <div class="edad">
           <label>
             <input type="text" class="edad_input" v-model="edad" placeholder="Edad" @input="validarEdad" />
-            <p v-if="!edadValida" style="color: red;">Edad inválida. Debe tener solo 2 dígitos.</p>
+            <p v-if="!edadValida" style="color: orangered;">Edad inválida. Debe tener solo 2 dígitos.</p>
           </label>
         </div>
         <div class="telefono">
           <label>
             <input type="text" class="telefono_input" v-model="telefono" placeholder="Número de teléfono"
               @input="validarTelefono" />
-            <p v-if="!telefonoValido" style="color: red;">Número de teléfono inválido. Debe ser 10 dígitos.</p>
+            <p v-if="!telefonoValido" style="color: orang;">Número de teléfono inválido. Debe ser 10 dígitos.</p>
           </label>
         </div>
       </div>
@@ -50,10 +50,10 @@
       <br />
       <!-- Botón para enviar el formulario -->
       <div class="btn_formulario">
-      <button type="submit">Registrar</button>
+        <button type="submit">Registrar</button>
+      </div>
       <p v-if="registroExitoso" class="confirmacion_mensaje">Usuario registrado con éxito.</p>
-      <p v-if="mensajeErrorGeneral" style="color: red;">{{ mensajeErrorGeneral }}</p>
-    </div>
+      <p class="mensaje_error" v-if="mensajeErrorGeneral">&#9888; {{ mensajeErrorGeneral }}</p>
     </div>
   </div>
 </form>
@@ -250,9 +250,22 @@ const enviarRegistroFirebase = async () => {
 }
 
 .confirmacion_mensaje {
-  color: $azul-oscuro;
-  font-size: 20px;
+  background-color: $azul-oscuro;
+  border-radius: 15px;
+  padding: 10px;
+  color: $azul-claro;
+  font-size: 15px;
   font-weight: bold;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.mensaje_error {
+  background-color: $naranja;
+  border-radius: 15px;
+  padding: 10px;
+  color: white;
+  font-size: 10px;
   margin-top: 10px;
   text-align: center;
 }
