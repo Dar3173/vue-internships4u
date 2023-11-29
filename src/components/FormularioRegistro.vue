@@ -28,27 +28,34 @@
         <br />
       </div>
       <br />
-      <!-- Sección fecha de nacimiento____ -->
-      <div class="container_edad">
-        <div class="Dia">
-          <select id="dia" v-model="dia" @change="handleDiaChange">
-            <option disabled value="">Día</option>
-            <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
-          </select>
+<!-- Sección edad y número de teléfono -->
+<div class="container_edad_telefono">
+        <div class="edad">
+          <label>
+            <input
+              type="text"
+              class="edad_input"
+              v-model="edad"
+              placeholder="Edad"
+              @input="validarEdad"
+            />
+            <p v-if="!edadValida" style="color: red;">Edad inválida. Debe tener solo 2 dígitos.</p>
+          </label>
         </div>
-        <div class="mes">
-          <select id="mes" v-model="mes" @change="handleFechaInput">
-            <option disabled value="">Mes</option>
-            <option v-for="(month, index) in months" :key="index" :value="month.abbr">{{ month.abbr }}</option>
-          </select>
-        </div>
-        <div class="año">
-          <select v-model="selectedYear" id="yearSelect" @change="handleYearChange">
-            <option disabled value="">Año</option>
-            <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
-          </select>
-        </div>
+        <div class="telefono">
+    <label>
+      <input
+        type="text"
+        class="telefono_input"
+        v-model="telefono"
+        placeholder="Número de teléfono"
+        @input="validarTelefono"
+      />
+      <p v-if="!telefonoValido" style="color: red;">Número de teléfono inválido. Debe ser 10 dígitos.</p>
+    </label>
+  </div>
       </div>
+
       <br />
       <!-- Botón para enviar el formulario -->
       <div class="btn_formulario">
@@ -101,69 +108,47 @@ let registroExitoso = ref(false);
     mensajeErrorContraseña.value = regex.test(contraseña.value) ? '' : 'Contraseña inválida. Debe contener letras A-Z (mayúsculas o minúsculas) y números 0-9, sin caracteres especiales, sin espacios, y tener una longitud de 1 a 6 caracteres.';
   };
   
-  // Sección fecha de nacimiento
-  const dia = ref('');
-  const days = Array.from({ length: 31 }, (_, index) => index + 1);
-  
-  const handleDiaChange = () => {};
-  
-  const mes = ref('');
-  const months = [];
-  for (let i = 0; i < 12; i++) {
-    const monthName = new Date(2023, i, 1).toLocaleString('default', { month: 'long' });
-    const monthAbbr = new Date(2023, i, 1).toLocaleString('default', { month: 'short' });
-    months.push({ name: monthName, abbr: monthAbbr.toLowerCase() });
-  }
-  
-  const selectedYear = ref('');
-  const handleYearChange = () => {};
-  
-  function generateYearList(start, end) {
-    const yearList = [];
-    for (let year = start; year <= end; year++) {
-      yearList.push(year);
-    }
-    return yearList;
-  }
-  
-  const years = generateYearList(1900, 2023);
-  
-  // Validación de la fecha de nacimiento
-  const fechaValida = ref(true);
-  
-  const handleFechaInput = () => {
-    const fechaNacimiento = new Date(selectedYear.value, months.findIndex((m) => m.abbr === mes.value), dia.value);
-    const edad = calcularEdad(fechaNacimiento);
-  
-    fechaValida.value = !isNaN(fechaNacimiento.getTime()) && edad >= 18;
-  };
-  
-  const calcularEdad = (fechaNacimiento) => {
-    const hoy = new Date();
-    const cumpleanos = new Date(hoy - fechaNacimiento);
-  
-    return cumpleanos.getUTCFullYear() - 1970;
-  };
+  // Sección Edad
+const edad = ref('');
+const edadValida = ref(true);
+
+const validarEdad = () => {
+  const regex = /^\d{2}$/;
+  edadValida.value = regex.test(edad.value);
+};
+
+// Sección Número de Teléfono
+const telefono = ref('');
+const telefonoValido = ref(true);
+
+const validarTelefono = () => {
+  const regex = /^\d{10}$/; // Ahora la expresión regular exige exactamente 10 dígitos
+  telefonoValido.value = regex.test(telefono.value);
+};
   
 
   //funcion para enviar la info a firebase 
   
-  const enviarRegistroFirebase = async () => {
-
+ // Función para enviar la información a Firebase
+const enviarRegistroFirebase = async () => {
   try {
     // Verifica que todos los campos estén válidos antes de enviar a Firebase
-    if (nombreValido.value && apellidoValido.value && mensajeErrorCorreo.value === '' && mensajeErrorContraseña.value === '' && fechaValida.value) {
+    if (
+      nombreValido.value &&
+      apellidoValido.value &&
+      mensajeErrorCorreo.value === '' &&
+      mensajeErrorContraseña.value === '' &&
+      edadValida.value &&
+      telefonoValido.value
+    ) {
       // Crea un objeto con la información del registro
       const registro = {
         nombre: nombre.value,
         apellido: apellido.value,
         correo: correo.value,
         contraseña: contraseña.value,
-        fechaNacimiento: {
-          dia: dia.value,
-          mes: mes.value,
-          año: selectedYear.value
-        }
+        edad: edad.value,
+        telefono: telefono.value,
       };
 
       // Llama a la función de Firebase para guardar la información
@@ -174,9 +159,8 @@ let registroExitoso = ref(false);
       apellido.value = '';
       correo.value = '';
       contraseña.value = '';
-      dia.value = '';
-      mes.value = '';
-      selectedYear.value = '';
+      edad.value = '';
+      telefono.value = '';
 
       // Activa el estado de registro exitoso
       registroExitoso.value = true;
@@ -193,14 +177,14 @@ let registroExitoso = ref(false);
 </script>
 
 <style scoped lang="scss">
-.container_formulario{
+.container_formulario {
   width: 100%;
   padding: 10px;
   line-height: 25px;
   font-size: 10px;
 }
 
-.formulario{
+.formulario {
   width: 100%;
   height: 100%;
   display: flex;
@@ -208,12 +192,19 @@ let registroExitoso = ref(false);
   flex-direction: column;
 }
 
-.container_nombres_apellidos, .correo_contraseña{
+.container_nombres_apellidos,
+.correo_contraseña,
+.container_edad_telefono {
   display: flex;
   justify-content: space-between;
 }
 
-.nombre, .apellido, .correo, .contraseña {
+.nombre,
+.apellido,
+.correo,
+.contraseña,
+.edad_input,
+.telefono_input {
   border: none;
   width: 90%;
   height: 30px;
@@ -235,6 +226,7 @@ let registroExitoso = ref(false);
 .btn_formulario button:hover {
   background-color: $azul-oscuro;
 }
+
 .confirmacion_mensaje {
   color: $azul-oscuro;
   font-size: 20px;
@@ -242,5 +234,4 @@ let registroExitoso = ref(false);
   margin-top: 10px;
   text-align: center;
 }
-
 </style>
