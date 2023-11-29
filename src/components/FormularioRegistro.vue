@@ -6,12 +6,12 @@
         <!-- Sección 1: Nombre -->
         <div class="nombre_barra">
           <input type="text" class="nombre" v-model="nombre" placeholder="Nombre" @input="handleNombreInput" />
-          <p v-if="!nombreValido" style="color: orangered;">Nombre inválido.</p>
+          <p v-if="!nombreValido" style="color: orangered; font-size: 15px;">Nombre inválido.</p>
         </div>
         <!-- Sección 2: Apellido -->
         <div class="apellido_barra">
           <input type="text" class="apellido" v-model="apellido" placeholder="Apellido" @input="handleApellidoInput" />
-          <p v-if="!apellidoValido" style="color: orangered;">Apellido inválido.</p>
+          <p v-if="!apellidoValido" style="color: orangered; font-size: 15px;">Apellido inválido.</p>
         </div>
       </div>
       <br />
@@ -19,13 +19,13 @@
       <div class="correo_contraseña">
         <label class="correo_barra">
           <input type="email" class="correo" v-model="correo" placeholder="Correo electrónico" @input="validarCorreo" />
-          <p v-if="mensajeErrorCorreo" style="color: orangered;">{{ mensajeErrorCorreo }}</p>
+          <p v-if="mensajeErrorCorreo" style="color: orangered; font-size: 15px;">{{ mensajeErrorCorreo }}</p>
         </label>
         <!-- Sección ingreso contraseña -->
         <label class="contrasena_barra">
           <input type="password" class="contraseña" v-model="contraseña" placeholder="Contraseña"
             @input="handleContraseñaInput" />
-          <p v-if="mensajeErrorContraseña" style="color: orangered;">{{ mensajeErrorContraseña }}</p>
+          <p v-if="mensajeErrorContraseña" style="color: orangered; font-size: 15px;">{{ mensajeErrorContraseña }}</p>
         </label>
         <br />
       </div>
@@ -35,14 +35,14 @@
         <div class="edad">
           <label>
             <input type="text" class="edad_input" v-model="edad" placeholder="Edad" @input="validarEdad" />
-            <p v-if="!edadValida" style="color: orangered;">Edad inválida. Debe tener solo 2 dígitos.</p>
+            <p v-if="!edadValida" style="color: orangered; font-size: 15px;">Edad inválida. Debe tener solo 2 dígitos.</p>
           </label>
         </div>
         <div class="telefono">
           <label>
             <input type="text" class="telefono_input" v-model="telefono" placeholder="Número de teléfono"
               @input="validarTelefono" />
-            <p v-if="!telefonoValido" style="color: orang;">Número de teléfono inválido. Debe ser 10 dígitos.</p>
+            <p v-if="!telefonoValido" style="color: orangered; font-size: 15px;">Número de teléfono inválido. Debe ser 10 dígitos.</p>
           </label>
         </div>
       </div>
@@ -52,7 +52,7 @@
       <div class="btn_formulario">
         <button type="submit">Registrar</button>
       </div>
-      <p v-if="registroExitoso" class="confirmacion_mensaje">Usuario registrado con éxito.</p>
+      <p v-if="registroExitoso" class="confirmacion_mensaje"> &#128077; Usuario registrado con éxito.</p>
       <p class="mensaje_error" v-if="mensajeErrorGeneral">&#9888; {{ mensajeErrorGeneral }}</p>
     </div>
   </div>
@@ -252,8 +252,8 @@ const enviarRegistroFirebase = async () => {
 .confirmacion_mensaje {
   background-color: $azul-oscuro;
   border-radius: 15px;
-  padding: 10px;
-  color: $azul-claro;
+  padding: 8px;
+  color: white;
   font-size: 15px;
   font-weight: bold;
   margin-top: 10px;
@@ -263,9 +263,9 @@ const enviarRegistroFirebase = async () => {
 .mensaje_error {
   background-color: $naranja;
   border-radius: 15px;
-  padding: 10px;
+  padding: 8px;
   color: white;
-  font-size: 10px;
+  font-size: 15px;
   margin-top: 10px;
   text-align: center;
 }
