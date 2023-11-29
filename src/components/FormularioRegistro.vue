@@ -1,18 +1,18 @@
 <template>
-    <div class="container_formulario">
-      <div class="formulario">
-        <div class="container_nombres_apellidos">
-          <!-- Sección 1: Nombre -->
-          <div class="nombre_barra">
-            <input type="text" class="nombre" v-model="nombre" placeholder="Nombre" @input="handleNombreInput" />
-            <p v-if="!nombreValido" style="color: red;">Nombre inválido.</p>
-          </div>
-          <!-- Sección 2: Apellido -->
-          <div class="apellido_barra">
-            <input type="text" class="apellido" v-model="apellido" placeholder="Apellido" @input="handleApellidoInput" />
-            <p v-if="!apellidoValido" style="color: red;">Apellido inválido.</p>
-          </div>
+  <div class="container_formulario">
+    <div class="formulario">
+      <div class="container_nombres_apellidos">
+        <!-- Sección 1: Nombre -->
+        <div class="nombre_barra">
+          <input type="text" class="nombre" v-model="nombre" placeholder="Nombre" @input="handleNombreInput" />
+          <p v-if="!nombreValido" style="color: red;">Nombre inválido.</p>
         </div>
+        <!-- Sección 2: Apellido -->
+        <div class="apellido_barra">
+          <input type="text" class="apellido" v-model="apellido" placeholder="Apellido" @input="handleApellidoInput" />
+          <p v-if="!apellidoValido" style="color: red;">Apellido inválido.</p>
+        </div>
+      </div>
       <br />
       <!-- Sección ingreso correo y contraseña -->
       <div class="correo_contraseña">
@@ -22,38 +22,28 @@
         </label>
         <!-- Sección ingreso contraseña -->
         <label class="contrasena_barra">
-          <input type="password" class="contraseña" v-model="contraseña" placeholder="Contraseña" @input="handleContraseñaInput" />
+          <input type="password" class="contraseña" v-model="contraseña" placeholder="Contraseña"
+            @input="handleContraseñaInput" />
           <p v-if="mensajeErrorContraseña" style="color: red;">{{ mensajeErrorContraseña }}</p>
         </label>
         <br />
       </div>
       <br />
-<!-- Sección edad y número de teléfono -->
-<div class="container_edad_telefono">
+      <!-- Sección edad y número de teléfono -->
+      <div class="container_edad_telefono">
         <div class="edad">
           <label>
-            <input
-              type="text"
-              class="edad_input"
-              v-model="edad"
-              placeholder="Edad"
-              @input="validarEdad"
-            />
+            <input type="text" class="edad_input" v-model="edad" placeholder="Edad" @input="validarEdad" />
             <p v-if="!edadValida" style="color: red;">Edad inválida. Debe tener solo 2 dígitos.</p>
           </label>
         </div>
         <div class="telefono">
-    <label>
-      <input
-        type="text"
-        class="telefono_input"
-        v-model="telefono"
-        placeholder="Número de teléfono"
-        @input="validarTelefono"
-      />
-      <p v-if="!telefonoValido" style="color: red;">Número de teléfono inválido. Debe ser 10 dígitos.</p>
-    </label>
-  </div>
+          <label>
+            <input type="text" class="telefono_input" v-model="telefono" placeholder="Número de teléfono"
+              @input="validarTelefono" />
+            <p v-if="!telefonoValido" style="color: red;">Número de teléfono inválido. Debe ser 10 dígitos.</p>
+          </label>
+        </div>
       </div>
 
       <br />
@@ -63,7 +53,7 @@
         <p v-if="registroExitoso" class="confirmacion_mensaje">Usuario registrado con éxito.</p>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script setup>
@@ -71,44 +61,44 @@ import { ref } from 'vue';
 import { agregarUsuario } from '../services/firebaseService';
 
 let registroExitoso = ref(false);
-  
-  // Sección 1: Nombre
-  const nombre = ref('');
-  const nombreValido = ref(true);
-  const handleNombreInput = () => {
-    const regex = /^[a-zA-Z\s]*$/;
-    nombreValido.value = regex.test(nombre.value);
-  };
-  
-  // Sección 2: Apellido
-  const apellido = ref('');
-  const apellidoValido = ref(true);
-  const handleApellidoInput = () => {
-    const regex = /^[a-zA-Z\s]*$/;
-    apellidoValido.value = regex.test(apellido.value);
-  };
-  
-  // Sección Correo
-  const correo = ref('');
-  const mensajeErrorCorreo = ref('');
-  
-  const validarCorreo = () => {
+
+// Sección 1: Nombre
+const nombre = ref('');
+const nombreValido = ref(true);
+const handleNombreInput = () => {
+  const regex = /^[a-zA-Z\s]*$/;
+  nombreValido.value = regex.test(nombre.value);
+};
+
+// Sección 2: Apellido
+const apellido = ref('');
+const apellidoValido = ref(true);
+const handleApellidoInput = () => {
+  const regex = /^[a-zA-Z\s]*$/;
+  apellidoValido.value = regex.test(apellido.value);
+};
+
+// Sección Correo
+const correo = ref('');
+const mensajeErrorCorreo = ref('');
+
+const validarCorreo = () => {
   // Utilizamos una expresión regular más sencilla para validar el correo electrónico
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const correoSinEspacios = correo.value.trim();
   mensajeErrorCorreo.value = regex.test(correoSinEspacios) ? '' : 'Correo electrónico inválido';
 };
-  
-  // Sección Contraseña
-  const contraseña = ref('');
-  const mensajeErrorContraseña = ref('');
-  
-  const handleContraseñaInput = () => {
-    const regex = /^[a-zA-Z0-9]{1,6}$/;
-    mensajeErrorContraseña.value = regex.test(contraseña.value) ? '' : 'Contraseña inválida. Debe contener letras A-Z (mayúsculas o minúsculas) y números 0-9, sin caracteres especiales, sin espacios, y tener una longitud de 1 a 6 caracteres.';
-  };
-  
-  // Sección Edad
+
+// Sección Contraseña
+const contraseña = ref('');
+const mensajeErrorContraseña = ref('');
+
+const handleContraseñaInput = () => {
+  const regex = /^[a-zA-Z0-9]{1,6}$/;
+  mensajeErrorContraseña.value = regex.test(contraseña.value) ? '' : 'Contraseña inválida. Debe contener letras A-Z (mayúsculas o minúsculas) y números 0-9, sin caracteres especiales, sin espacios, y tener una longitud de 1 a 6 caracteres.';
+};
+
+// Sección Edad
 const edad = ref('');
 const edadValida = ref(true);
 
@@ -125,11 +115,11 @@ const validarTelefono = () => {
   const regex = /^\d{10}$/; // Ahora la expresión regular exige exactamente 10 dígitos
   telefonoValido.value = regex.test(telefono.value);
 };
-  
 
-  //funcion para enviar la info a firebase 
-  
- // Función para enviar la información a Firebase
+
+//funcion para enviar la info a firebase 
+
+// Función para enviar la información a Firebase
 const enviarRegistroFirebase = async () => {
   try {
     // Verifica que todos los campos estén válidos antes de enviar a Firebase
