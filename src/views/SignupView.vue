@@ -11,9 +11,9 @@
   <div class="imagen_registro">
     <img src="@/assets/img/mujer_estudiante.png" alt="mujer" />
   </div>
-  <div class="btn_login">
-    <RouterLink :to="'/'" class="routerlink">&#60;</RouterLink>
-  </div>
+  
+    <RouterLink :to="'/'" class="routerlink"> <div class="btn_login"> &#60; </div></RouterLink>
+  
 </template>
 
 <script setup>
