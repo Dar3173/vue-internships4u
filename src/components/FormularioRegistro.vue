@@ -63,7 +63,11 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { agregarUsuario, registrarUsuarioConCorreoYContraseña } from '../services/firebaseService';
+import { registrarUsuarioConCorreoYContraseña } from '../services/firebaseService';
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 
 let registroExitoso = ref(false);
@@ -155,26 +159,27 @@ const enviarRegistroFirebase = async () => {
   try {
     // Verifica que todos los campos estén válidos antes de enviar a Firebase
     if (formularioValido.value) {
-      // Crea un objeto con la información del registro
-      const registro = {
+      // Llama a la función de Firebase para crear un nuevo usuario con correo y contraseña
+      const user = await registrarUsuarioConCorreoYContraseña(correo.value, contraseña.value);
+
+      // Llama a la función de Firebase para guardar la información en Firestore
+      const db = getFirestore();
+
+      // Utiliza el UID como ID del documento
+      const userDocRef = doc(collection(db, 'users'), user.uid);
+
+      // Usa setDoc para establecer el documento con el UID específico
+      await setDoc(userDocRef, {
         nombre: nombre.value,
         apellido: apellido.value,
         correo: correo.value,
         contraseña: contraseña.value,
         edad: edad.value,
         telefono: telefono.value,
-      };
+        uid: user.uid, // Asegúrate de incluir el UID también si lo necesitas
+      });
 
-      // Llama a la función de Firebase para crear un nuevo usuario con correo y contraseña
-      const user = await registrarUsuarioConCorreoYContraseña(correo.value, contraseña.value);
-
-
-
-      // Llama a la función de Firebase para guardar la información
-      const idUsuario = await agregarUsuario(registro);
-
-      console.log(`Usuario registrado en Firebase con ID: ${idUsuario}`);
-      console.log('Nuevo usuario creado en Firebase:', user);
+      console.log(`Usuario registrado en Firebase con UID: ${user.uid}`);
 
       // Restablece los valores de los campos después del registro exitoso
       nombre.value = '';
@@ -192,6 +197,8 @@ const enviarRegistroFirebase = async () => {
       // Desactiva el estado de registro exitoso después de un tiempo
       setTimeout(() => {
         registroExitoso.value = false;
+        // Redirige a la página de inicio de sesión
+        router.push({ name: 'login' });
       }, 5000); // Por ejemplo, espera 5 segundos antes de desactivar
     } else {
       // Muestra un mensaje de error general si el formulario no es válido
@@ -201,10 +208,6 @@ const enviarRegistroFirebase = async () => {
     console.error('Error al enviar el formulario a Firebase:', error.message);
   }
 };
-
-
-
-
 </script>
 
 <style scoped lang="scss">

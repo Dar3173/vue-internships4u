@@ -1,6 +1,6 @@
 // firebaseService.js
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 // Configuración de Firebase con nuestras credenciales
@@ -48,13 +48,35 @@ const fetchJobDetails = async (postId) => {
 };
 
 // Colección de usuarios en Firestore
+// eslint-disable-next-line
 const usersCollection = collection(db, 'users');
 
 
 // Función para agregar un nuevo usuario a la colección "users"
 const agregarUsuario = async (usuario) => {
-    const docRef = await addDoc(usersCollection, usuario);
-    return docRef.id; // Devuelve el ID del documento recién creado
+    const db = getFirestore();
+
+    try {
+        // Utiliza el UID del usuario como ID del documento
+        const docRef = doc(collection(db, 'users'), usuario.uid);
+
+        // Usa setDoc en lugar de addDoc para especificar el ID del documento
+        await setDoc(docRef, {
+            nombre: usuario.nombre,
+            apellido: usuario.apellido,
+            correo: usuario.correo,
+            contraseña: usuario.contraseña,
+            edad: usuario.edad,
+            telefono: usuario.telefono,
+            uid: usuario.uid,
+        });
+
+        console.log('Usuario agregado con ID (UID): ', usuario.uid);
+        return usuario.uid;
+    } catch (error) {
+        console.error('Error al agregar usuario: ', error);
+        throw error;
+    }
 };
 
 // Función para autenticar con correo electrónico y contraseña
