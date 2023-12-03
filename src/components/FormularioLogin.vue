@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="login">
         <div>
-            <input v-model="usuario" placeholder="Usuario" name="usuario" />
+            <input v-model="usuario" placeholder="Correo Electronico" name="usuario" />
             <span v-if="usuarioError" class="error-message">{{ usuarioError }}</span>
         </div>
         <div>
