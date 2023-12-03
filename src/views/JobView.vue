@@ -86,7 +86,7 @@ h4 {
 }
 
 .img-job, img{
-    height: 650px;
+    height: 600px;
     object-fit: cover;
     position: fixed;
     bottom: 0;
