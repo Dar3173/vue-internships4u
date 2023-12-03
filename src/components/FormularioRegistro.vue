@@ -245,7 +245,7 @@ const enviarRegistroFirebase = async () => {
 }
 
 .btn_formulario button {
-  padding: 10px 20px;
+  padding: 10px 50px;
   font-size: 16px;
   background-color: $naranja;
   color: white;

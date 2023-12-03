@@ -1,21 +1,23 @@
 <template>
-    <form @submit.prevent="login">
-        <div>
-            <input v-model="usuario" placeholder="Correo Electronico" name="usuario" />
-            <span v-if="usuarioError" class="error-message">{{ usuarioError }}</span>
+    <form @submit.prevent="login" class="container_formulario">
+        <div class="correo_container">
+            <input v-model="usuario" placeholder="Correo Electronico" name="usuario" class="correo" />
+            <span v-if="usuarioError" style="color: orangered; font-size: 15px;">{{ usuarioError }}</span>
         </div>
-        <div>
-            <input type="password" v-model="contrasena" placeholder="Contraseña" />
+        <div class="contraseña_container">
+            <input type="password" v-model="contrasena" placeholder="Contraseña" class="contraseña" />
+            <span v-if="errorGeneral" style="color: orangered; font-size: 15px;">{{ errorGeneral }}</span>
         </div>
-        <span v-if="errorGeneral" class="error-message">{{ errorGeneral }}</span>
-        <p>
-            Aún no estás registrado
-            <RouterLink :to="{ name: 'Signup' }"> Regístrate </RouterLink>
+        <button type="submit" class="btn_login">Iniciar Sesión</button>
+        <br>
+        <br>
+        <p class="registro">
+            &#8594; Aún no estás registrado
+            <RouterLink :to="{ name: 'Signup' }" class="routerlink"> Regístrate </RouterLink>
         </p>
-        <button type="submit">Iniciar Sesión</button>
     </form>
 </template>
-  
+
 <script setup>
 import { ref } from 'vue';
 import { autenticarConCorreoYContraseña } from '../services/firebaseService';
@@ -43,11 +45,61 @@ const login = async () => {
     }
 };
 </script>
-  
-<style scoped>
-.error-message {
-    color: red;
-    font-size: 14px;
+
+<style scoped lang="scss">
+.container_formulario {
+    width: 100%;
+    padding: 10px;
+    line-height: 25px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
 }
+
+.correo_container, .contraseña_container {
+    margin-bottom: 10px;
+}
+
+.correo, .contraseña {
+    border: none;
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    padding-left: 15px;
+    margin-right: 104px;
+}
+
+.btn_login {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: $naranja;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.btn_login:hover {
+    background-color: $azul-oscuro;
+}
+
+.registro {
+    background-color: $azul-oscuro;
+    border-radius: 15px;
+    padding: 8px;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.routerlink {
+    color: $azul-claro;
+}
+
+.routerlink:active {
+    color: $naranja;
+}
+
 </style>
-  
