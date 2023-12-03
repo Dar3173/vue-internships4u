@@ -1,6 +1,7 @@
 // firebaseService.js
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 // Configuración de Firebase con nuestras credenciales
 const firebaseConfig = {
@@ -17,6 +18,10 @@ const app = initializeApp(firebaseConfig);
 
 // Obtiene una instancia de Firestore
 const db = getFirestore(app);
+
+// Obtiene una instancia de Auth para Firebase Authentication
+const auth = getAuth(app);  // Asigna el valor de getAuth a la variable auth
+
 
 // Colección de posts en Firestore
 const postsCollection = collection(db, 'posts');
@@ -52,5 +57,25 @@ const agregarUsuario = async (usuario) => {
     return docRef.id; // Devuelve el ID del documento recién creado
 };
 
+// Función para autenticar con correo electrónico y contraseña
+const autenticarConCorreoYContraseña = async (correo, contraseña) => {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, correo, contraseña);
+        return userCredential.user;
+    } catch (error) {
+        throw new Error('Error al autenticar con correo electrónico y contraseña: ' + error.message);
+    }
+};
+
+// Función para registrar un nuevo usuario con correo electrónico y contraseña
+const registrarUsuarioConCorreoYContraseña = async (correo, contraseña) => {
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, correo, contraseña);
+        return userCredential.user;
+    } catch (error) {
+        throw new Error('Error al registrar usuario con correo electrónico y contraseña: ' + error.message);
+    }
+};
+
 // Exporta las funciones para su uso en otros archivos
-export { fetchPosts, fetchJobDetails, agregarUsuario };
+export { fetchPosts, fetchJobDetails, agregarUsuario, autenticarConCorreoYContraseña, registrarUsuarioConCorreoYContraseña };

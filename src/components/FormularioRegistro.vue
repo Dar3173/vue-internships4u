@@ -1,67 +1,70 @@
 <template>
-    <form @submit.prevent="enviarRegistroFirebase">
-  <div class="container_formulario">
-    <div class="formulario">
-      <div class="container_nombres_apellidos">
-        <!-- Sección 1: Nombre -->
-        <div class="nombre_barra">
-          <input type="text" class="nombre" v-model="nombre" placeholder="Nombre" @input="handleNombreInput" />
-          <p v-if="!nombreValido" style="color: orangered; font-size: 15px;">Nombre inválido.</p>
+  <form @submit.prevent="enviarRegistroFirebase">
+    <div class="container_formulario">
+      <div class="formulario">
+        <div class="container_nombres_apellidos">
+          <!-- Sección 1: Nombre -->
+          <div class="nombre_barra">
+            <input type="text" class="nombre" v-model="nombre" placeholder="Nombre" @input="handleNombreInput" />
+            <p v-if="!nombreValido" style="color: orangered; font-size: 15px;">Nombre inválido.</p>
+          </div>
+          <!-- Sección 2: Apellido -->
+          <div class="apellido_barra">
+            <input type="text" class="apellido" v-model="apellido" placeholder="Apellido" @input="handleApellidoInput" />
+            <p v-if="!apellidoValido" style="color: orangered; font-size: 15px;">Apellido inválido.</p>
+          </div>
         </div>
-        <!-- Sección 2: Apellido -->
-        <div class="apellido_barra">
-          <input type="text" class="apellido" v-model="apellido" placeholder="Apellido" @input="handleApellidoInput" />
-          <p v-if="!apellidoValido" style="color: orangered; font-size: 15px;">Apellido inválido.</p>
-        </div>
-      </div>
-      <br />
-      <!-- Sección ingreso correo y contraseña -->
-      <div class="correo_contraseña">
-        <label class="correo_barra">
-          <input type="email" class="correo" v-model="correo" placeholder="Correo electrónico" @input="validarCorreo" />
-          <p v-if="mensajeErrorCorreo" style="color: orangered; font-size: 15px;">{{ mensajeErrorCorreo }}</p>
-        </label>
-        <!-- Sección ingreso contraseña -->
-        <label class="contrasena_barra">
-          <input type="password" class="contraseña" v-model="contraseña" placeholder="Contraseña"
-            @input="handleContraseñaInput" />
-          <p v-if="mensajeErrorContraseña" style="color: orangered; font-size: 15px;">{{ mensajeErrorContraseña }}</p>
-        </label>
         <br />
-      </div>
-      <br />
-      <!-- Sección edad y número de teléfono -->
-      <div class="container_edad_telefono">
-        <div class="edad">
-          <label>
-            <input type="text" class="edad_input" v-model="edad" placeholder="Edad" @input="validarEdad" />
-            <p v-if="!edadValida" style="color: orangered; font-size: 15px;">Edad inválida. Debe tener solo 2 dígitos.</p>
+        <!-- Sección ingreso correo y contraseña -->
+        <div class="correo_contraseña">
+          <label class="correo_barra">
+            <input type="email" class="correo" v-model="correo" placeholder="Correo electrónico" @input="validarCorreo" />
+            <p v-if="mensajeErrorCorreo" style="color: orangered; font-size: 15px;">{{ mensajeErrorCorreo }}</p>
           </label>
-        </div>
-        <div class="telefono">
-          <label>
-            <input type="text" class="telefono_input" v-model="telefono" placeholder="Número de teléfono"
-              @input="validarTelefono" />
-            <p v-if="!telefonoValido" style="color: orangered; font-size: 15px;">Número de teléfono inválido. Debe ser 10 dígitos.</p>
+          <!-- Sección ingreso contraseña -->
+          <label class="contrasena_barra">
+            <input type="password" class="contraseña" v-model="contraseña" placeholder="Contraseña"
+              @input="handleContraseñaInput" />
+            <p v-if="mensajeErrorContraseña" style="color: orangered; font-size: 15px;">{{ mensajeErrorContraseña }}</p>
           </label>
+          <br />
         </div>
-      </div>
+        <br />
+        <!-- Sección edad y número de teléfono -->
+        <div class="container_edad_telefono">
+          <div class="edad">
+            <label>
+              <input type="text" class="edad_input" v-model="edad" placeholder="Edad" @input="validarEdad" />
+              <p v-if="!edadValida" style="color: orangered; font-size: 15px;">Edad inválida. Debe tener solo 2 dígitos.
+              </p>
+            </label>
+          </div>
+          <div class="telefono">
+            <label>
+              <input type="text" class="telefono_input" v-model="telefono" placeholder="Número de teléfono"
+                @input="validarTelefono" />
+              <p v-if="!telefonoValido" style="color: orangered; font-size: 15px;">Número de teléfono inválido. Debe ser
+                10 dígitos.</p>
+            </label>
+          </div>
+        </div>
 
-      <br />
-      <!-- Botón para enviar el formulario -->
-      <div class="btn_formulario">
-        <button type="submit">Registrar</button>
+        <br />
+        <!-- Botón para enviar el formulario -->
+        <div class="btn_formulario">
+          <button type="submit">Registrar</button>
+        </div>
+        <p v-if="registroExitoso" class="confirmacion_mensaje"> &#128077; Usuario registrado con éxito.</p>
+        <p class="mensaje_error" v-if="mensajeErrorGeneral">&#9888; {{ mensajeErrorGeneral }}</p>
       </div>
-      <p v-if="registroExitoso" class="confirmacion_mensaje"> &#128077; Usuario registrado con éxito.</p>
-      <p class="mensaje_error" v-if="mensajeErrorGeneral">&#9888; {{ mensajeErrorGeneral }}</p>
     </div>
-  </div>
-</form>
+  </form>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
-import { agregarUsuario } from '../services/firebaseService';
+import { agregarUsuario, registrarUsuarioConCorreoYContraseña } from '../services/firebaseService';
+
 
 let registroExitoso = ref(false);
 
@@ -162,10 +165,16 @@ const enviarRegistroFirebase = async () => {
         telefono: telefono.value,
       };
 
+      // Llama a la función de Firebase para crear un nuevo usuario con correo y contraseña
+      const user = await registrarUsuarioConCorreoYContraseña(correo.value, contraseña.value);
+
+
+
       // Llama a la función de Firebase para guardar la información
       const idUsuario = await agregarUsuario(registro);
 
       console.log(`Usuario registrado en Firebase con ID: ${idUsuario}`);
+      console.log('Nuevo usuario creado en Firebase:', user);
 
       // Restablece los valores de los campos después del registro exitoso
       nombre.value = '';
