@@ -21,7 +21,7 @@ import { fetchPosts } from '../services/firebaseService';
 
 
 
-const categories = ref(['Ingenieria Industrial', 'Desarrollador web ', 'Publicidad', 'Ingenieria Biomédica']);
+const categories = ref(['Ingenieria Industrial', 'Desarrollador web', 'Publicidad', 'Ingenieria Biomédica']);
 const posts = ref([]);
 const filteredPosts = ref([]);
 
