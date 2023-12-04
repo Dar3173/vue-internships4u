@@ -7,7 +7,7 @@
             <p v-if="jobDetails && jobDetails.data">Dirección: {{ jobDetails.data.direccion }}</p> 
             <!-- Otros detalles del trabajo... -->
 
-            <RouterLink :to="'CSearch'" class="routerlink"> <div class="btn"> &#60; </div></RouterLink>
+            <RouterLink :to="{name:'CSearch'}" class="routerlink"> <div class="btn"> &#60; </div></RouterLink>
         </div>
         <div class="img-job">
             <img class="img" src="../assets/img/hombre_mujer_oficina.png" alt="Hombre y mujer trabajadores">
