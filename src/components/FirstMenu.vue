@@ -80,7 +80,7 @@ onMounted(async () => {
 
 <style lang="scss">
 .menu {
-    height: 10%;
+    height: 20%;
     align-items: center;
     display: flex;
     justify-content: space-between;
@@ -88,8 +88,8 @@ onMounted(async () => {
 }
 
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 130px;
+    height: 130px;
 }
 
 router-link {
