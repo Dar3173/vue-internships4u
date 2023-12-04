@@ -6,10 +6,13 @@
             <p v-if="jobDetails && jobDetails.data" v-html="formatDescription(jobDetails.data.descripcion)"></p>
             <p v-if="jobDetails && jobDetails.data">Dirección: {{ jobDetails.data.direccion }}</p> 
             <!-- Otros detalles del trabajo... -->
+
+            <RouterLink :to="'CSearch'" class="routerlink"> <div class="btn"> &#60; </div></RouterLink>
         </div>
         <div class="img-job">
-            <img src="../assets/img/hombre_mujer_oficina.png" alt="Hombre y mujer trabajadores">
+            <img class="img" src="../assets/img/hombre_mujer_oficina.png" alt="Hombre y mujer trabajadores">
         </div>
+        
     </div>
     
 </template>
@@ -85,11 +88,49 @@ h4 {
     margin: 10px;
 }
 
-.img-job, img{
-    height: 600px;
+.img-job{
+    position: relative;
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
     object-fit: cover;
-    position: fixed;
-    bottom: 0;
-    right: 0;
+    
+}
+
+.img{
+    max-width: 100%; 
+    max-height: 100%;
+}
+
+.btn{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 50px;
+    height: 50px;
+    background: $azul-oscuro;
+    border-radius: 50%;
+    transition: 50ms;
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: $naranja;
+    width: 55px;
+    height: 55px;
+}
+
+.routerlink{
+    transition: 50ms;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.routerlink:hover {
+    color: $azul-oscuro;
 }
 </style>

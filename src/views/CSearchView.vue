@@ -21,7 +21,7 @@ import { fetchPosts } from '../services/firebaseService';
 
 
 
-const categories = ref(['Ingenieria Industrial', 'Diseño gráfico', 'Publicidad', 'Ingenieria Biomédica']);
+const categories = ref(['Ingenieria Industrial', 'Desarrollador web ', 'Publicidad', 'Ingenieria Biomédica']);
 const posts = ref([]);
 const filteredPosts = ref([]);
 
@@ -67,6 +67,7 @@ const filterPosts = (category) => {
     border: 2px dotted $azul-oscuro;
     border-radius: 10px;
     box-sizing: border-box;
+    text-decoration: none;
 }
 
 
@@ -75,7 +76,6 @@ const filterPosts = (category) => {
 }
 
 .post-title, .company-info {
-  margin-top: 2px;
   color: $azul-oscuro;
   display: block;
   text-decoration-color: white;
