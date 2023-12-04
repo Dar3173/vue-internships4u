@@ -62,8 +62,8 @@ onMounted(async () => {
     background-color: white;
     width: 55%;
     border-radius: 15px;
-    margin: 50px;
     margin-left: 25px;
+    margin-bottom: 50px;
     line-height: 25px;
     white-space: pre-line;
 }
@@ -95,12 +95,11 @@ h4 {
     justify-content: flex-end;
     align-items: flex-end;
     object-fit: cover;
-    
 }
 
 .img{
-    max-width: 100%; 
-    max-height: 100%;
+    max-width: 90%; 
+    max-height: 90%;
 }
 
 .btn{
@@ -115,6 +114,7 @@ h4 {
     font-size: 50px;
     color: white;
     font-weight: bold;
+    margin: 5px;
     cursor: pointer;
 }
 

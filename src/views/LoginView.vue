@@ -1,5 +1,6 @@
 <template>
-    <div class="container_login">
+    <div class="login">
+        <div class="container_login">
         <div class="container_texto">
             <h1>Iniciar Sesión</h1>
             <P class="texto_parrafo">Encuentra la práctica perfecta para adquirir experiencia real y desarrollar tus habilidades.</P>
@@ -14,8 +15,10 @@
         <FormularioLogin />
     </div>
     <div class="imagen_login">
-        <img src="../assets/img/hombre_mujer_estudiantes.png" alt="hombre y mujer mirando una tablet" />
+        <img class="img" src="../assets/img/hombre_mujer_estudiantes.png" alt="hombre y mujer mirando una tablet" />
     </div>
+    </div>
+    
 </template>
 
 <script setup>
@@ -23,8 +26,12 @@ import FormularioLogin from '@/components/FormularioLogin.vue';
 </script>
 
 <style lang="scss" scoped>
+.login{
+    display: flex;
+}
 .container_login{
-    display: block;
+    display: flex;
+    flex-direction: column;
     margin-left: 100px;
     width: 40%;
     height: 70%;
@@ -54,14 +61,22 @@ import FormularioLogin from '@/components/FormularioLogin.vue';
     font-weight: bold;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     margin-left: 100px;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
-.imagen_login, img {
-    height: 650px;
+.imagen_login{
+    position: relative;
+    width: 45%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
     object-fit: cover;
-    position: fixed;
-    bottom: 0;
-    right: 100px;
 }
+
+.img {
+    max-width: 90%; 
+    max-height: 90%;
+}
+
+
 </style>
