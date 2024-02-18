@@ -5,8 +5,8 @@
     <div class="center-box">
       <ul>
         <router-link :to="{ name: 'jobView', params: { id: item.id } }" v-for="item in filteredPosts" :key="item.id" class="post-card">
-          <p class="post-title">{{ item.data.titulo }}</p>
-          <p class="company-info">En {{ item.data.empresa }}</p>
+          <p class="post-title">{{ item.titulo }}</p>
+          <p class="company-info">En {{ item.empresa }}</p>
         </router-link>
       </ul>
     </div>
@@ -16,17 +16,14 @@
 <script setup>
 import DropdownCS from '../components/DropdownCS.vue';
 import { ref, onMounted } from 'vue';
-import { fetchPosts } from '../services/firebaseService';
-// eslint-disable-next-line
-
-
+import { fetchTasks } from '../services/databaseService';
 
 const categories = ref(['Ingenieria Industrial', 'Desarrollador web', 'Publicidad', 'Ingenieria Biomédica']);
 const posts = ref([]);
 const filteredPosts = ref([]);
 
 onMounted(async () => {
-  posts.value = await fetchPosts();
+  posts.value = await fetchTasks();
   filteredPosts.value = posts.value;
 });
 
@@ -34,11 +31,12 @@ const filterPosts = (category) => {
   if (category === 'all') {
     filteredPosts.value = posts.value;
   } else {
-    filteredPosts.value = posts.value.filter(post => post.data.categoria === category);
+    filteredPosts.value = posts.value.filter(post => post.categoria === category);
   }
 };
 
 </script>
+
 
 <style lang="scss" scoped>
   .customSearch h1 {

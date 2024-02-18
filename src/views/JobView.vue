@@ -1,45 +1,43 @@
 <template>
     <div class="job-container">
-        <div class="job-view">
-            <h2 v-if="jobDetails && jobDetails.data">{{ jobDetails.data.titulo }}</h2>
-            <p v-if="jobDetails && jobDetails.data">Empresa: {{ jobDetails.data.empresa }}</p>
-            <p v-if="jobDetails && jobDetails.data" v-html="formatDescription(jobDetails.data.descripcion)"></p>
-            <p v-if="jobDetails && jobDetails.data">Dirección: {{ jobDetails.data.direccion }}</p> 
-            <!-- Otros detalles del trabajo... -->
-
-            <RouterLink :to="{name:'CSearch'}" class="routerlink"> <div class="btn"> &#60; </div></RouterLink>
-        </div>
-        <div class="img-job">
-            <img class="img" src="../assets/img/hombre_mujer_oficina.png" alt="Hombre y mujer trabajadores">
-        </div>
-        
+      <div class="job-view" v-if="jobDetails">
+        <h2>{{ jobDetails.titulo }}</h2>
+        <p>Empresa: {{ jobDetails.empresa }}</p>
+        <p>Descripción: {{ jobDetails.descripcion }}</p>
+        <p>Dirección: {{ jobDetails.direccion }}</p>
+        <RouterLink :to="{ name: 'CSearch' }" class="routerlink">
+          <div class="btn"> &#60; </div>
+        </RouterLink>
+      </div>
+      <div class="img-job" >
+        <img class="img" src="../assets/img/hombre_mujer_oficina.png" alt="Hombre y mujer trabajadores" />
+      </div>
     </div>
-    
-</template>
-
-<script setup>
-import { ref, onMounted } from "vue";
-import { fetchJobDetails } from "../services/firebaseService";
-import { useRoute } from "vue-router";
-
-const route = useRoute();
-const jobId = ref(route.params.id); // Asigna el ID del trabajo que deseas cargar
-const jobDetails = ref(null);
-
-
-const formatDescription = (description) => {
+  </template>
+  
+  <script setup>
+  import { ref, onMounted } from "vue";
+  import { fetchTaskDetails } from "../services/databaseService";
+  import { useRoute } from "vue-router";
+  
+  const route = useRoute();
+  const taskId = ref(route.params.id);
+  const jobDetails = ref(null);
+  
+  /*const formatDescription = (description) => {
     return description.replace(/\\r\\n|\\r|\\n/g, '<br>');
-};
-
-onMounted(async () => {
+  };*/
+  
+  onMounted(async () => {
     try {
-        jobDetails.value = await fetchJobDetails(jobId.value);
-        console.log('job details', jobDetails.value)
+      jobDetails.value = await fetchTaskDetails(taskId.value);
+      console.log("Task details:", jobDetails.value);
     } catch (error) {
-        console.error("Error fetching job details: ", error);
+      console.error("Error fetching job details: ", error);
     }
-});
-</script>
+  });
+  </script>
+  
 
 <style scoped lang="scss">
 .post-page {

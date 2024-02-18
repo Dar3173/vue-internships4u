@@ -1,6 +1,6 @@
 // firebaseService.js
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 // Configuración de Firebase con nuestras credenciales
@@ -20,45 +20,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Obtiene una instancia de Auth para Firebase Authentication
-const auth = getAuth(app);  // Asigna el valor de getAuth a la variable auth
-
-
-// Colección de posts en Firestore
-const postsCollection = collection(db, 'posts');
-
-// Función para obtener todos los posts desde la colección "posts"
-const fetchPosts = async () => {
-    const querySnapshot = await getDocs(postsCollection);
-    const posts = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
-    return posts;
-};
-
-// Función para obtener los detalles de un trabajo específico por su ID (postId)
-const fetchJobDetails = async (postId) => {
-    const jobDocRef = doc(db, 'posts', postId);
-    console.log(postId)
-    const jobDocSnapshot = await getDoc(jobDocRef);
-
-    if (jobDocSnapshot.exists()) {
-        const jobDetails = { id: jobDocSnapshot.id, data: jobDocSnapshot.data() };
-        return jobDetails;
-    } else {
-        throw new Error(`Job with ID ${postId} not found.`);
-    }
-};
+const auth = getAuth(app);
 
 // Colección de usuarios en Firestore
-// eslint-disable-next-line
 const usersCollection = collection(db, 'users');
-
 
 // Función para agregar un nuevo usuario a la colección "users"
 const agregarUsuario = async (usuario) => {
-    const db = getFirestore();
-
     try {
         // Utiliza el UID del usuario como ID del documento
-        const docRef = doc(collection(db, 'users'), usuario.uid);
+        const docRef = doc(usersCollection, usuario.uid);
 
         // Usa setDoc en lugar de addDoc para especificar el ID del documento
         await setDoc(docRef, {
@@ -100,4 +71,4 @@ const registrarUsuarioConCorreoYContraseña = async (correo, contraseña) => {
 };
 
 // Exporta las funciones para su uso en otros archivos
-export { fetchPosts, fetchJobDetails, agregarUsuario, autenticarConCorreoYContraseña, registrarUsuarioConCorreoYContraseña };
+export { agregarUsuario, autenticarConCorreoYContraseña, registrarUsuarioConCorreoYContraseña };
