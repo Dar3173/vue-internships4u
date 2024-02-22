@@ -11,12 +11,16 @@
       </ul>
     </div>
   </div>
+  <ProfileMenu />
 </template>
 
 <script setup>
 import DropdownCS from '../components/DropdownCS.vue';
 import { ref, onMounted } from 'vue';
 import { fetchPosts } from '../services/firebaseService';
+
+import ProfileMenu from '../components/ProfileMenu.vue'
+
 // eslint-disable-next-line
 
 

@@ -12,8 +12,9 @@
         <div class="img-job">
             <img class="img" src="../assets/img/hombre_mujer_oficina.png" alt="Hombre y mujer trabajadores">
         </div>
-        
     </div>
+
+    <ProfileMenu />
     
 </template>
 
@@ -21,6 +22,8 @@
 import { ref, onMounted } from "vue";
 import { fetchJobDetails } from "../services/firebaseService";
 import { useRoute } from "vue-router";
+
+import ProfileMenu from '../components/ProfileMenu.vue'
 
 const route = useRoute();
 const jobId = ref(route.params.id); // Asigna el ID del trabajo que deseas cargar

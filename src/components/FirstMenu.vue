@@ -1,26 +1,30 @@
 <template>
-    <div class="menu">
-        <router-link :to="{ name: 'login' }">
-            <img class="logo" src="../assets/logo.png" alt="logo Internships4u">
-        </router-link>
+  <div class="menu">
+    <router-link :to="{ name: 'login' }">
+      <img class="logo" src="../assets/logo.png" alt="logo Internships4u">
+    </router-link>
 
-        <!-- Verifica si la ruta actual no está en la lista de rutas sin nombre de usuario -->
-        <template v-if="usuarioAutenticado && !esPaginaDeLoginYRegistro">
-            <!-- Mostrar el nombre del usuario -->
-            <span class="MenuLink">{{ nombreUsuario }}</span>
-        </template>
+    <!-- Verifica si la ruta actual no está en la lista de rutas sin nombre de usuario -->
+    <template v-if="usuarioAutenticado && !esPaginaDeLoginYRegistro">
+      <!-- Mostrar el nombre del usuario y manejar el clic para mostrar el menú de perfil -->
+      <span class="MenuLink" @click="toggleProfileMenu">{{ nombreUsuario }}</span>
+    </template>
 
-        <!-- Verifica si la ruta actual está en la lista de rutas sin nombre de usuario -->
-        <template v-else-if="esPaginaDeLoginYRegistro">
-            <!-- No mostrar nada en las páginas de login y registro -->
-        </template>
+    <!-- Verifica si la ruta actual está en la lista de rutas sin nombre de usuario -->
+    <template v-else-if="esPaginaDeLoginYRegistro">
+      <!-- No mostrar nada en las páginas de login y registro -->
+    </template>
 
-        <!-- Verifica si la ruta actual no está en la lista de rutas sin nombre de usuario -->
-        <template v-else>
-            <!-- Mostrar el enlace de "Iniciar Sesión" si el usuario no está autenticado -->
-            <span class="MenuLink">Iniciar Sesión</span>
-        </template>
-    </div>
+    <!-- Verifica si la ruta actual no está en la lista de rutas sin nombre de usuario -->
+    <template v-else>
+      <!-- Mostrar el enlace de "Iniciar Sesión" si el usuario no está autenticado -->
+      <span class="MenuLink">Iniciar Sesión</span>
+    </template>
+
+    <!-- Integrar el componente ProfileMenu.vue y mostrarlo según el estado -->
+  </div>
+
+
 </template>
 
 <script setup>
@@ -32,6 +36,7 @@ const usuarioAutenticado = ref(false);
 const nombreUsuario = ref('');
 const auth = getAuth();
 const vm = getCurrentInstance();
+const showProfileMenu = ref(false); // Estado para controlar la visibilidad del menú de perfil
 
 // Rutas donde no quieres mostrar el nombre del usuario
 const rutasSinNombreUsuario = ['login', 'Signup'];
@@ -40,42 +45,47 @@ const rutasSinNombreUsuario = ['login', 'Signup'];
 const esPaginaDeLoginYRegistro = ref(false);
 
 onMounted(async () => {
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            // Usuario autenticado
-            usuarioAutenticado.value = true;
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // Usuario autenticado
+      usuarioAutenticado.value = true;
 
-            // Obtener el nombre del usuario desde la base de datos
-            const db = getFirestore();
-            const userDoc = doc(db, 'users', user.uid);
+      // Obtener el nombre del usuario desde la base de datos
+      const db = getFirestore();
+      const userDoc = doc(db, 'users', user.uid);
 
-            try {
-                const userSnapshot = await getDoc(userDoc);
+      try {
+        const userSnapshot = await getDoc(userDoc);
 
-                if (userSnapshot.exists()) {
-                    const userData = userSnapshot.data();
-                    nombreUsuario.value = userData.nombre;
-                } else {
-                    console.error('El documento del usuario no existe en Firestore.');
-                }
-            } catch (error) {
-                console.error('Error obteniendo datos del usuario:', error);
-            }
+        if (userSnapshot.exists()) {
+          const userData = userSnapshot.data();
+          nombreUsuario.value = userData.nombre;
         } else {
-            // Usuario no autenticado
-            usuarioAutenticado.value = false;
+          console.error('El documento del usuario no existe en Firestore.');
         }
-        // Verificar si la ruta actual está en la lista de rutas sin nombre de usuario
-        const rutaActual = vm.proxy.$route.name;
-        esPaginaDeLoginYRegistro.value = rutasSinNombreUsuario.includes(rutaActual);
-    });
+      } catch (error) {
+        console.error('Error obteniendo datos del usuario:', error);
+      }
+    } else {
+      // Usuario no autenticado
+      usuarioAutenticado.value = false;
+    }
+    // Verificar si la ruta actual está en la lista de rutas sin nombre de usuario
+    const rutaActual = vm.proxy.$route.name;
+    esPaginaDeLoginYRegistro.value = rutasSinNombreUsuario.includes(rutaActual);
+  });
 
-    // Observar cambios en la ruta
-    watch(() => vm.proxy.$route, (to) => {
-        const rutaActual = to.name;
-        esPaginaDeLoginYRegistro.value = rutasSinNombreUsuario.includes(rutaActual);
-    });
+  // Observar cambios en la ruta
+  watch(() => vm.proxy.$route, (to) => {
+    const rutaActual = to.name;
+    esPaginaDeLoginYRegistro.value = rutasSinNombreUsuario.includes(rutaActual);
+  });
 });
+
+// Método para cambiar el estado del menú de perfil al hacer clic en el nombre de usuario
+const toggleProfileMenu = () => {
+  showProfileMenu.value = !showProfileMenu.value;
+};
 </script>
 
 <style lang="scss">
