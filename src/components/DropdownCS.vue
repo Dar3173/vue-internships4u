@@ -22,7 +22,6 @@ import { ref } from 'vue';
 export default {
   props: ['categories'],
   setup(props, { emit }) {
-    console.log('categorias', props.categories)
     const isOpen = ref(false);
     const options = ref(props.categories);
     const selectedOption = ref(null);

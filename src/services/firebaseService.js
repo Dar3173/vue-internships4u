@@ -100,4 +100,4 @@ const registrarUsuarioConCorreoYContraseña = async (correo, contraseña) => {
 };
 
 // Exporta las funciones para su uso en otros archivos
-export { fetchPosts, fetchJobDetails, agregarUsuario, autenticarConCorreoYContraseña, registrarUsuarioConCorreoYContraseña };
+export { db,fetchPosts, fetchJobDetails, agregarUsuario, autenticarConCorreoYContraseña, registrarUsuarioConCorreoYContraseña };
