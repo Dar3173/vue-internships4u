@@ -108,7 +108,7 @@ router-link {
 
 .MenuLink {
     color: white;
-    margin-right: 1.5rem;
+    margin-right: 8.9rem;
     text-decoration: none;
     font-weight: bold;
 }
