@@ -57,6 +57,21 @@
                         <button class="btn-perfil" @click="saveNewPassword">Guardar</button>
                         <button class="btn-perfil" @click="cancelEditPassword">Cancelar</button>
                     </div>
+                    <button class="btn-perfil" @click="editPhone" v-if="!editingPhone">
+                        {{ editingPhone ? 'Cancelar' : 'Editar Teléfono' }}
+                    </button>
+                    <div v-if="editingPhone">
+                        <label for="newPhone">
+                            <p>Nuevo Teléfono:</p>
+                        </label>
+                        <input type="tel" id="newPhone" v-model="newPhone" />
+                        <label for="confirmPhone">
+                            <p>Confirmar Teléfono:</p>
+                        </label>
+                        <input type="tel" id="confirmPhone" v-model="confirmPhone" />
+                        <button class="btn-perfil" @click="saveNewPhone">Guardar</button>
+                        <button class="btn-perfil" @click="cancelEditPhone">Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -86,6 +101,9 @@ export default {
             newPassword: '',
             confirmNewPassword: '',
             confirmationMessage: '',
+            editingPhone: false,
+            newPhone: '',
+            confirmPhone: '',
         };
     },
     methods: {
@@ -257,6 +275,66 @@ export default {
         isValidPassword(password) {
             // Lógica para validar la contraseña (puedes personalizar según tus criterios)
             return password.length >= 6; // Por ejemplo, requerir al menos 6 caracteres
+        },
+        editPhone() {
+            if (this.editingPhone) {
+                // Si ya está en modo de edición, cancela la edición
+                this.cancelEditPhone();
+            } else {
+                // Inicia el modo de edición de teléfono
+                this.editingPhone = true;
+            }
+        },
+
+        cancelEditPhone() {
+            // Cancela la edición del teléfono y limpia los campos
+            this.editingPhone = false;
+            this.newPhone = '';
+            this.confirmPhone = '';
+        },
+
+        async saveNewPhone() {
+    // Lógica para validar y guardar el nuevo número de teléfono
+    if (this.isValidPhone(this.newPhone)) {
+        try {
+            const auth = getAuth();
+            const user = auth.currentUser;
+
+            if (user) {
+                const db = getFirestore();
+                const userDocRef = doc(db, 'users', user.uid);
+
+                // Actualiza el campo de teléfono en Firestore
+                await updateDoc(userDocRef, {
+                    telefono: this.newPhone,
+                });
+
+                console.log('Número de teléfono actualizado en Firestore:', this.newPhone);
+                this.confirmationMessage = 'Número de teléfono actualizado correctamente';
+
+                // Oculta el mensaje después de 5 segundos
+                setTimeout(() => {
+                    this.confirmationMessage = '';
+                }, 5000);
+            } else {
+                console.error('No hay usuario autenticado');
+            }
+        } catch (error) {
+            console.error('Error al actualizar el número de teléfono en Firestore:', error);
+        }
+
+        // Finaliza la edición del teléfono y limpia los campos
+        this.editingPhone = false;
+        this.newPhone = '';
+        this.confirmPhone = '';
+    } else {
+        console.error('El número de teléfono no es válido');
+    }
+},
+        isValidPhone(phone) {
+            // Lógica para validar el formato de teléfono (10 dígitos, sin decimales)
+            const phoneRegex = /^\d{10}$/;
+            return phoneRegex.test(phone);
         },
     },
 };

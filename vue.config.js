@@ -9,5 +9,6 @@ module.exports = defineConfig({
         `
       }
     }
-  }
+  },
+  publicPath: process.env.PUBLIC_HTML || "/"
 })
