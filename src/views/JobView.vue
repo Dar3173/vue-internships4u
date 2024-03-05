@@ -9,9 +9,7 @@
 
             <RouterLink :to="{name:'CSearch'}" class="routerlink"> <div class="btn"> &#60; </div></RouterLink>
         </div>
-        <div class="img-job">
-            <img class="img" src="../assets/img/hombre_mujer_oficina.png" alt="Hombre y mujer trabajadores">
-        </div>
+
     </div>
 
     <ProfileMenu />
@@ -45,14 +43,6 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
-.post-page {
-    display: flex;
-    margin: 3%;
-    padding: 1%;
-    justify-content: center;
-    height: 475px;
-}
-
 .job-container{
     display: flex;
     justify-content: space-between;
@@ -62,11 +52,11 @@ onMounted(async () => {
 }
 .job-view {
     padding: 10px;
-    background-color: white;
-    width: 55%;
+    background: white url('../assets/logo_opacidad.png') no-repeat center;
+    background-size: contain;
+    width: 90%;
     border-radius: 15px;
-    margin-left: 25px;
-    margin-bottom: 50px;
+    margin: auto;
     line-height: 25px;
     white-space: pre-line;
 }
@@ -89,20 +79,6 @@ p,
 h4 {
     padding: 10px;
     margin: 10px;
-}
-
-.img-job{
-    position: relative;
-    width: 40%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    object-fit: cover;
-}
-
-.img{
-    max-width: 90%; 
-    max-height: 90%;
 }
 
 .btn{

@@ -13,10 +13,10 @@
                         Edad:
                         <span v-if="editingAge">
                             <input type="number" v-model="user.edad" />
-                            <button class="btn-perfil" @click="saveAge">Guardar</button>
+                            <button class="btn-p" @click="saveAge">Guardar</button>
                         </span>
                         <span v-else>{{ user.edad }}</span>
-                        <button class="btn-perfil" @click="editingAge = !editingAge">
+                        <button class="btn-p" @click="editingAge = !editingAge">
                             {{ editingAge ? 'Cancelar' : '&#128394;' }}
                         </button>
                     </p>
@@ -26,7 +26,7 @@
                     <button class="btn-perfil" @click="editEmail" v-if="!editingEmail">
                         {{ editingEmail ? 'Cancelar' : 'Editar Correo' }}
                     </button>
-                    <div v-if="editingEmail">
+                    <div class="btn-editar" v-if="editingEmail">
                         <label for="newEmail">
                             <p>Nuevo Correo:</p>
                         </label>
@@ -35,13 +35,16 @@
                             <p>Confirmar Correo:</p>
                         </label>
                         <input type="email" id="confirmEmail" v-model="confirmEmail" />
-                        <button class="btn-perfil" @click="saveNewEmail">Guardar</button>
-                        <button class="btn-perfil" @click="cancelEditEmail">Cancelar</button>
+                        <div class="btn_cambios">
+                            <button class="btn-p" @click="saveNewEmail">Guardar</button>
+                            <button class="btn-p" @click="cancelEditEmail">Cancelar</button>
+                        </div>
+                        
                     </div>
                     <button class="btn-perfil" @click="editPassword" v-if="!editingPassword">
                         {{ editingPassword ? 'Cancelar' : 'Cambiar Contraseña' }}
                     </button>
-                    <div v-if="editingPassword">
+                    <div class="btn-editar" v-if="editingPassword">
                         <label for="currentPassword">
                             <p>Contraseña Actual:</p>
                         </label>
@@ -54,13 +57,16 @@
                             <p>Confirmar Nueva Contraseña:</p>
                         </label>
                         <input type="password" id="confirmNewPassword" v-model="confirmNewPassword" />
-                        <button class="btn-perfil" @click="saveNewPassword">Guardar</button>
-                        <button class="btn-perfil" @click="cancelEditPassword">Cancelar</button>
+                        <div class="btn_cambios">
+                            <button class="btn-p" @click="saveNewPassword">Guardar</button>
+                            <button class="btn-p" @click="cancelEditPassword">Cancelar</button>
+                        </div>
+                        
                     </div>
                     <button class="btn-perfil" @click="editPhone" v-if="!editingPhone">
                         {{ editingPhone ? 'Cancelar' : 'Editar Teléfono' }}
                     </button>
-                    <div v-if="editingPhone">
+                    <div class="btn-editar" v-if="editingPhone">
                         <label for="newPhone">
                             <p>Nuevo Teléfono:</p>
                         </label>
@@ -69,15 +75,18 @@
                             <p>Confirmar Teléfono:</p>
                         </label>
                         <input type="tel" id="confirmPhone" v-model="confirmPhone" />
-                        <button class="btn-perfil" @click="saveNewPhone">Guardar</button>
-                        <button class="btn-perfil" @click="cancelEditPhone">Cancelar</button>
+                        <div class="btn-cambios">
+                            <button class="btn-p" @click="saveNewPhone">Guardar</button>
+                            <button class="btn-p" @click="cancelEditPhone">Cancelar</button>
+                        </div>
                     </div>
+                        
                 </div>
             </div>
         </div>
     </div>
 </template>
-  
+
 <script>
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged, updatePassword } from 'firebase/auth';
@@ -357,7 +366,7 @@ export default {
     },
 };
 </script>
-  
+
 
 <style scoped lang="scss">
 .toggle-button {
@@ -436,8 +445,30 @@ export default {
     cursor: pointer;
 }
 
-.btn-perfil:hover {
+.btn-perfil:hover, .btn-p:hover {
     background-color: $naranja;
+}
+
+.btn-editar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-cambios {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.btn-p {
+    padding: 10px 15px;
+    font-size: 15px;
+    background-color: $azul-oscuro;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    margin: 5px 2px;
+    cursor: pointer;
 }
 
 editingAge {
