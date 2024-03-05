@@ -38,7 +38,7 @@ import FormularioLogin from '@/components/FormularioLogin.vue';
 }
 
 .container_texto{
-    padding: 0 20px 0 20px;
+    padding: 0 15px 0 20px;
 }
 .container_texto h1{
     text-align: center;
@@ -65,18 +65,16 @@ import FormularioLogin from '@/components/FormularioLogin.vue';
 }
 
 .imagen_login{
-    position: relative;
-    width: 45%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
+    position: absolute;
+    width: 680px;
+    bottom: 0;
+    right: 10px;
     object-fit: cover;
 }
 
-.img {
-    max-width: 90%; 
-    max-height: 90%;
+.img{
+    max-width: 85%; 
+    max-height: 85%;
 }
-
 
 </style>

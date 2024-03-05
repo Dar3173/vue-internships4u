@@ -53,7 +53,6 @@ const login = async () => {
     line-height: 25px;
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
 }
 
 .correo_container, .contraseña_container {
