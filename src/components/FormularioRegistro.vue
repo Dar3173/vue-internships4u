@@ -7,14 +7,14 @@
           <div class="nombre_barra">
             <input type="text" class="nombre" v-model="nombre" placeholder="Nombre" @input="handleNombreInput" />
             <div class="error-message">
-              <p v-if="!nombreValido" class="error">Nombre inválido.</p>
+              <p v-if="!nombreValido" class="error">&#9888; Nombre inválido.</p>
             </div>
           </div>
           <!-- Sección 2: Apellido -->
           <div class="apellido_barra">
             <input type="text" class="apellido" v-model="apellido" placeholder="Apellido" @input="handleApellidoInput" />
             <div class="error-message">
-              <p v-if="!apellidoValido" class="error">Apellido inválido.</p>
+              <p v-if="!apellidoValido" class="error">&#9888; Apellido inválido.</p>
             </div>
           </div>
         </div>
@@ -24,7 +24,7 @@
           <label class="correo_barra">
             <input type="email" class="correo" v-model="correo" placeholder="Correo electrónico" @input="validarCorreo" />
             <div class="error-message">
-              <p v-if="mensajeErrorCorreo" class="error">{{ mensajeErrorCorreo }}</p>
+              <p v-if="mensajeErrorCorreo" class="error">&#9888; {{ mensajeErrorCorreo }}</p>
             </div>
           </label>
           
@@ -33,7 +33,7 @@
             <input type="password" class="contraseña" v-model="contraseña" placeholder="Contraseña"
               @input="handleContraseñaInput" />
               <div class="error-message">
-                <p v-if="mensajeErrorContraseña" class="error password-error">{{ mensajeErrorContraseña }}</p>
+                <p v-if="mensajeErrorContraseña" class="error password-error">&#9888; {{ mensajeErrorContraseña }}</p>
               </div>  
           </label>
           
@@ -47,7 +47,7 @@
               <input type="text" class="edad_input" v-model="edad" placeholder="Edad" @input="validarEdad" />
             </label>
             <div class="error-message">
-              <p v-if="!edadValida" class="error">Edad inválida. Debe ser mayor de 15 años</p>
+              <p v-if="!edadValida" class="error">&#9888; Edad inválida. Debe ser mayor de 15 años</p>
             </div>
           </div>
           <div class="telefono">
@@ -56,7 +56,7 @@
                 @input="validarTelefono" />
             </label>
             <div class="error-message">
-              <p v-if="!telefonoValido" class="error">Número de teléfono inválido. Debe tener 10 dígitos.</p>
+              <p v-if="!telefonoValido" class="error">&#9888; Número de teléfono inválido. Debe tener 10 dígitos.</p>
             </div>
           </div>
         </div>
@@ -270,12 +270,12 @@ const enviarRegistroFirebase = async () => {
   padding: 10px;
   color: orangered;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 12px;
   margin: -10px;
 }
 
 .password-error {
-  width: 500px;
+  width: 400px;
 }
 
 .btn_formulario button {
