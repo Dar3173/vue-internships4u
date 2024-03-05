@@ -245,6 +245,8 @@ export default {
                         await updatePassword(user, this.newPassword);
 
                         console.log('Contraseña actualizada en Firebase Authentication');
+                        // Actualiza la contraseña en Firestore
+                        await this.updatePasswordInFirestore(user.uid, this.newPassword);
                         this.confirmationMessage = 'Contraseña actualizada correctamente';
 
                         // Oculta el mensaje después de 5 segundos
@@ -267,14 +269,30 @@ export default {
                 console.error('Las contraseñas no coinciden o no son válidas');
             }
         },
+
+        async updatePasswordInFirestore(userId, newPassword) {
+    try {
+        const db = getFirestore();
+        const userDocRef = doc(db, 'users', userId);
+
+        // Actualiza el campo de contraseña en Firestore
+        await updateDoc(userDocRef, {
+            contraseña: newPassword,
+        });
+
+        console.log('Contraseña actualizada en Firestore:');
+    } catch (error) {
+        console.error('Error al actualizar la contraseña en Firestore', error);
+    }
+},
         isValidEmail(email) {
             // Lógica para validar el formato de correo electrónico
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
         },
         isValidPassword(password) {
-            // Lógica para validar la contraseña (puedes personalizar según tus criterios)
-            return password.length >= 6; // Por ejemplo, requerir al menos 6 caracteres
+            const passwordRegex = /^[a-zA-Z0-9]{1,6}$/;
+            return passwordRegex.test(password) 
         },
         editPhone() {
             if (this.editingPhone) {
