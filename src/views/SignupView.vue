@@ -2,7 +2,7 @@
   <div class="container_registro">
     <div class="container_texto">
       <h1>Registro</h1>
-      <p>
+      <p class="container_parrafo">
         Desde prácticas locales hasta oportunidades internacionales, nuestra plataforma te conecta con empresas líderes que valoran el talento emergente.
       </p>
     </div>
@@ -39,7 +39,7 @@ import FormularioRegistro from '../components/FormularioRegistro.vue';
   font-weight: bold;
   margin-bottom: 0;
 }
-.container_texto p{
+.container_parrafo{
   text-align: center;
   color: white;
   font-size: 20px;
