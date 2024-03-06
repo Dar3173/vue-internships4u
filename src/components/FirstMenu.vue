@@ -4,24 +4,26 @@
       <img class="logo" src="../assets/logo.png" alt="logo Internships4u">
     </router-link>
 
-    <!-- Verifica si la ruta actual no está en la lista de rutas sin nombre de usuario -->
-    <template v-if="usuarioAutenticado && !esPaginaDeLoginYRegistro">
-      <!-- Mostrar el nombre del usuario y manejar el clic para mostrar el menú de perfil -->
-      <span class="MenuLink" @click="toggleProfileMenu">{{ nombreUsuario }}</span>
-      <button class="sign-out-button" @click="signOut">Cerrar sesión</button>
-    </template>
+    <div class="menu-link">
+        <!-- Verifica si la ruta actual no está en la lista de rutas sin nombre de usuario -->
+      <template v-if="usuarioAutenticado && !esPaginaDeLoginYRegistro">
+        <!-- Mostrar el nombre del usuario y manejar el clic para mostrar el menú de perfil -->
+        <span class="MenuLink" @click="toggleProfileMenu">Hola, {{ nombreUsuario }}</span>
+        <button class="sign-out-button" @click="signOut">Cerrar sesión</button>
+      </template>
 
-    <!-- Verifica si la ruta actual está en la lista de rutas sin nombre de usuario -->
-    <template v-else-if="esPaginaDeLoginYRegistro">
-      <!-- No mostrar nada en las páginas de login y registro -->
-    </template>
+      <!-- Verifica si la ruta actual está en la lista de rutas sin nombre de usuario -->
+      <template v-else-if="esPaginaDeLoginYRegistro">
+        <!-- No mostrar nada en las páginas de login y registro -->
+      </template>
 
-    <!-- Verifica si la ruta actual no está en la lista de rutas sin nombre de usuario -->
-    <template v-else>
-      <!-- Mostrar el enlace de "Iniciar Sesión" si el usuario no está autenticado -->
-      <span class="MenuLink">Iniciar Sesión</span>
-    </template>
-
+      <!-- Verifica si la ruta actual no está en la lista de rutas sin nombre de usuario -->
+      <template v-else>
+        <!-- Mostrar el enlace de "Iniciar Sesión" si el usuario no está autenticado -->
+        <span class="MenuLink">Iniciar Sesión</span>
+      </template>
+    </div>
+    
 
     <!-- Integrar el componente ProfileMenu.vue y mostrarlo según el estado -->
   </div>
@@ -63,7 +65,8 @@ onMounted(async () => {
 
         if (userSnapshot.exists()) {
           const userData = userSnapshot.data();
-          nombreUsuario.value = userData.nombre;
+          // Capitaliza la primera letra del nombre de usuario
+          nombreUsuario.value = userData.nombre.charAt(0).toUpperCase() + userData.nombre.slice(1);
         } else {
           console.error('El documento del usuario no existe en Firestore.');
         }
@@ -99,6 +102,7 @@ router.push({ name: 'login' });
 };
 </script>
 
+
 <style lang="scss">
 .menu {
     height: 20%;
@@ -117,30 +121,28 @@ router-link {
     text-decoration: none;
 }
 
+.menu-link {
+  justify-content: flex-end;
+}
+
 .MenuLink {
     color: white;
-    margin-right: 8.9rem;
+    font-family: $script;
+    font-size: 30px;
+    margin-right: 1rem;
     text-decoration: none;
     font-weight: bold;
 }
 
-.MenuLink:hover {
-    text-decoration: none;
-    color: $naranja;
-    transition: 0.5s;
-}
-
 .sign-out-button{
-  position: fixed;
-  top: 58px;
-  right: 20px;
   background-color: #E86207; 
   color: #FFFFFF; 
   padding: 10px 20px; 
   border: none;
-  border-radius: 10px; 
+  border-radius: 15px; 
   font-size: 16px; 
   cursor: pointer;
+  font-weight: bold;
 }
 .sign-out-button:hover{
   background-color: #08435C; 
