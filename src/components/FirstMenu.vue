@@ -8,6 +8,7 @@
     <template v-if="usuarioAutenticado && !esPaginaDeLoginYRegistro">
       <!-- Mostrar el nombre del usuario y manejar el clic para mostrar el menú de perfil -->
       <span class="MenuLink" @click="toggleProfileMenu">{{ nombreUsuario }}</span>
+      <button class="sign-out-button" @click="signOut">Cerrar sesión</button>
     </template>
 
     <!-- Verifica si la ruta actual está en la lista de rutas sin nombre de usuario -->
@@ -21,6 +22,7 @@
       <span class="MenuLink">Iniciar Sesión</span>
     </template>
 
+
     <!-- Integrar el componente ProfileMenu.vue y mostrarlo según el estado -->
   </div>
 
@@ -31,12 +33,14 @@
 import { ref, onMounted, watch, getCurrentInstance } from 'vue';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useRouter } from 'vue-router';
 
 const usuarioAutenticado = ref(false);
 const nombreUsuario = ref('');
 const auth = getAuth();
 const vm = getCurrentInstance();
 const showProfileMenu = ref(false); // Estado para controlar la visibilidad del menú de perfil
+const router = useRouter();
 
 // Rutas donde no quieres mostrar el nombre del usuario
 const rutasSinNombreUsuario = ['login', 'Signup'];
@@ -86,6 +90,13 @@ onMounted(async () => {
 const toggleProfileMenu = () => {
   showProfileMenu.value = !showProfileMenu.value;
 };
+
+const signOut = () => {
+
+router.push({ name: 'login' }); 
+
+
+};
 </script>
 
 <style lang="scss">
@@ -117,5 +128,21 @@ router-link {
     text-decoration: none;
     color: $naranja;
     transition: 0.5s;
+}
+
+.sign-out-button{
+  position: fixed;
+  top: 58px;
+  right: 20px;
+  background-color: #E86207; 
+  color: #FFFFFF; 
+  padding: 10px 20px; 
+  border: none;
+  border-radius: 10px; 
+  font-size: 16px; 
+  cursor: pointer;
+}
+.sign-out-button:hover{
+  background-color: #08435C; 
 }
 </style>

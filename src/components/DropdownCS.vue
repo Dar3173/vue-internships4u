@@ -11,7 +11,7 @@
             {{ option }}
           </li>
         </ul>
-        <button class="sign-out-button" @click="signOut">Cerrar sesión</button>
+        
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
 
 <script>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+
 
 export default {
   props: ['categories'],
@@ -27,7 +27,7 @@ export default {
     const isOpen = ref(false);
     const options = ref(props.categories);
     const selectedOption = ref(null);
-    const router = useRouter();
+
 
     const toggleDropdown = () => {
       isOpen.value = !isOpen.value;
@@ -39,12 +39,7 @@ export default {
       emit('categorySelected', option);
     };
 
-    const signOut = () => {
-
-router.push({ name: 'login' }); 
-
-emit('signOut');
-};
+    
     return {
       isOpen,
       options,
@@ -52,7 +47,6 @@ emit('signOut');
       toggleDropdown,
       selectOption,
       emit, // Agrega esto si realmente necesitas tener acceso a `emit` en el componente
-      signOut,
     };
     
   },
@@ -130,19 +124,5 @@ emit('signOut');
   background-color: $azul-oscuro;
 }
 
-.sign-out-button{
-  position: fixed;
-  top: 58px;
-  right: 20px;
-  background-color: #E86207; 
-  color: #FFFFFF; 
-  padding: 10px 20px; 
-  border: none;
-  border-radius: 10px; 
-  font-size: 16px; 
-  cursor: pointer;
-}
-.sign-out-button:hover{
-  background-color: #08435C; 
-}
+
 </style>
